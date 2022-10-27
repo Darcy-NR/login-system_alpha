@@ -1,4 +1,30 @@
   //                          //
+ //////[ 27 - 10 - 2022 ]//////
+//                          //
+
+DONE:
+
+- Login System is more or less functional
+    - End user can provide username and password
+    - If user exists and password matches then they login and are given their welcome message
+    - If password doesn't match then at the moment it just gives them a static screen, I will need to figure out how the hell reset password system is gonna work, obviously it will touch a counter as it goes by? The issue is I don't have a database to store this stuff so its going to have to be instance based, the easy solution is just 3 failed logins, but that creates the issue that the user can fail any 3 logins and get sent to reset password. The thing is, who cares right, I can just send them to the splash page for reset password.
+
+TO-DO:
+
+- I do really need to unify the versions and get to work on a register user system
+- User can create a password that if it satisfies the 3 requirements or whatever can proceed
+- A password generator
+- Theoretically this means I should be able to login but the issue is that the display needs to encrypt user passwords on output? I have no idea how to do this I am not sure if terry wants the stored passwords to be encrypted.
+- I am thinking the way to go about it is to just say bugger it and then store it as plaintext and then on the command that outputs the accounts.json in a beautified table for the SysAdmin that we just have it omit the password as "XXXXXXXX" or whatever?
+- This should be all stuff easily done tomorrow
+
+NON CRITICAL TO-DO: 
+
+- None yet
+
+====================================================================
+
+  //                          //
  //////[ 26 - 10 - 2022 ]//////
 //                          //
 

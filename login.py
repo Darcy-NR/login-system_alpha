@@ -1,4 +1,3 @@
-import curses
 from curses import wrapper
 from curses.textpad import Textbox, rectangle
 
@@ -30,12 +29,29 @@ def login(stdscr):
     
     stdscr.getch()
     stdscr.clear()
+    # login_func(username_text, password_text)
 
 wrapper(login)
 
-def login(username_text, password_text):
+def login_func(username_text, password_text):
+
+    #Retrieve accounts.json as dictionary
+    with open("accounts.json", "r") as f:
+        accounts = json.load(f)
+        print(accounts)
+
+
+    #Write to a different variable the result a parse WHERE given username == { input }
+
+    #If true than do something
     
-    
+    #If false than do something else
+
+
+
+
+
+
     # User enters user name and password via Emacs
 
     # Once completed the provided variables are put into a Login Class (or maybe a function/ I dunno it might not really need a class), where their inputs are run against the library
