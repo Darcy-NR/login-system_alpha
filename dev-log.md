@@ -1,4 +1,27 @@
   //                          //
+ //////[ 28 - 10 - 2022 ]//////
+//                          //
+
+DONE:
+
+- Login System is even more finished
+- The system now keeps track of failed logins via a global variable, and sends the user down a placeholder route after 3 fails
+- Realistically there isn't a lot more I can do without a unified version, I've been procrastinating getting my laptop. I will see about finally unifying the codebase tomorrow night.
+
+TO-DO:
+
+- I do really need to unify the versions and get to work on a register user system
+- User can create a password that if it satisfies the 3 requirements or whatever can proceed
+- A password generator
+- Pretty table accounts output function for the sysadmin -- I am thinking the way to go about it is to just say bugger it and then store it as plaintext and then on the command that outputs the accounts.json in a beautified table for the SysAdmin that we just have it omit the password as "XXXXXXXX" or whatever?
+
+NON CRITICAL TO-DO: 
+
+- None yet
+
+====================================================================
+
+  //                          //
  //////[ 27 - 10 - 2022 ]//////
 //                          //
 

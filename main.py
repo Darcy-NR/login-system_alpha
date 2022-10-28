@@ -4,7 +4,7 @@ from curses import wrapper
 from curses.textpad import Textbox, rectangle
 from register import register
 
-
+fails = 0
 
 def main(stdscr):
     y = 0
@@ -74,12 +74,29 @@ def logged_in(stdscr):
     rectangle(stdscr, 0, 0, 3, 46,)
     stdscr.getch()
 
-def failed_login(stdscr):
-    stdscr.addstr(1, 1, "That Password is Invalid", curses.A_REVERSE)
-    stdscr.addstr(2, 1, "You have XYZ tries remaining") #I want this to change colour or be red or something
-    stdscr.addstr(3, 1, "_ _ _ _ _ _ _ _ _ _ _")
-    rectangle(stdscr, 0, 0, 3, 46,)
-    stdscr.getch()
+def failed_login(stdscr, fails):
+    if fails == 1:
+        stdscr.addstr(1, 1, "That Password is Invalid", curses.A_REVERSE)
+        stdscr.addstr(2, 1, "You have 2 tries remaining") #I want this to change colour or be red or something
+        stdscr.addstr(3, 1, "_ _ _ _ _ _ _ _ _ _ _")
+        rectangle(stdscr, 0, 0, 3, 46,)
+        stdscr.getch()
+    elif fails == 2:
+        stdscr.addstr(1, 1, "That Password is Invalid", curses.A_REVERSE)
+        stdscr.addstr(2, 1, "You have 1 try remaining") #I want this to change colour or be red or something
+        stdscr.addstr(3, 1, "_ _ _ _ _ _ _ _ _ _ _")
+        rectangle(stdscr, 0, 0, 3, 46,)
+        stdscr.getch()
+
+def failed_counter(stdscr):
+    global fails
+    fails += 1
+    if fails == 3:
+        fails = 0
+        register(stdscr)
+    else:
+        failed_login(stdscr, fails)
+    return
 
 def login_func(stdscr, username_text, password_text):
 
@@ -116,7 +133,8 @@ def login_func(stdscr, username_text, password_text):
                 welcome_message = account.get("next_login_msg")
                 logged_in(stdscr)
             else:
-                failed_login(stdscr)
+                failed_counter(stdscr)
+
 
 
 def login(stdscr):
@@ -148,12 +166,7 @@ def login(stdscr):
     stdscr.getch()
     stdscr.clear()
     login_func(stdscr, username_text, password_text)
-
-
-
-
-
-
+    
 wrapper(main)
 
 
