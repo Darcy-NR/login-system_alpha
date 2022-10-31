@@ -1,4 +1,32 @@
   //                          //
+ //////[ 31 - 10 - 2022 ]//////
+//                          //
+
+DONE:
+
+- Versions are finally inified lmao
+- Registration pages are partially set up
+    - User can input if they want a randomly generated password or to use their own
+    - inputs are ready on both
+- User is shown their login time when they exit out
+
+TO-DO:
+
+- validators on the inputs
+- have it that the login updates last login
+- Systems admin stuff
+- User can create a password that if it satisfies the 3 requirements or whatever can proceed
+- A password generator
+- Pretty table accounts output function for the sysadmin -- I am thinking the way to go about it is to just say bugger it and then store it as plaintext and then on the command that outputs the accounts.json in a beautified table for the SysAdmin that we just have it omit the password as "XXXXXXXX" or whatever?
+
+NON CRITICAL TO-DO: 
+
+- None yet
+
+====================================================================
+====================================================================
+
+  //                          //
  //////[ 28 - 10 - 2022 ]//////
 //                          //
 
@@ -20,6 +48,8 @@ NON CRITICAL TO-DO:
 - None yet
 
 ====================================================================
+====================================================================
+
 
   //                          //
  //////[ 27 - 10 - 2022 ]//////
@@ -45,6 +75,7 @@ NON CRITICAL TO-DO:
 
 - None yet
 
+====================================================================
 ====================================================================
 
   //                          //

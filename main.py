@@ -3,8 +3,10 @@ import json
 from curses import wrapper
 from curses.textpad import Textbox, rectangle
 from register import register
+import time
 
 fails = 0
+start_time = time.time()
 
 def main(stdscr):
     y = 0
@@ -31,7 +33,7 @@ def main(stdscr):
             stdscr.clear()
             register(stdscr)
         elif key == "KEY_RIGHT" and y == -1:
-                exit()
+                goodbye()
         stdscr.refresh()
 
         if y == 1:
@@ -88,6 +90,20 @@ def failed_login(stdscr, fails):
         rectangle(stdscr, 0, 0, 3, 46,)
         stdscr.getch()
 
+def goodbye():
+    global start_time
+    curses.endwin()
+    end_time = time.time()
+    use_time = end_time - start_time
+    print("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
+    print("Thank you for using our services, please come back soon!")
+    print("Active for: ")
+    print(time.strftime("%H:%M:%S", time.gmtime(use_time)))
+    print("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
+    time.sleep(2.5)
+    exit()
+
+
 def failed_counter(stdscr):
     global fails
     fails += 1
@@ -135,7 +151,116 @@ def login_func(stdscr, username_text, password_text):
             else:
                 failed_counter(stdscr)
 
+def select_password_type(stdscr):
+    #User needs to select if they want to generate their own password or have it randomly generated
+    y = 1
+    stdscr.clear()
+    stdscr.addstr(1, 1, "Do you want us to randomly generate you a password or, enter your own", curses.A_REVERSE)
+    stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
+    rectangle(stdscr, 0, 0, 7, 70)
+    stdscr.addstr(3, 1, "Randomly Generated Password", curses.A_REVERSE)
+    stdscr.addstr(4, 1, "Enter your own")
+    
+    while True:
+        key = stdscr.getkey()
+        if key == "KEY_UP":
+            y += 1
+        elif key == "KEY_DOWN":
+            y -= 1
+        elif key == "KEY_RIGHT" and y == 1:
+            stdscr.clear()
+            register_new_user_RAND(stdscr)
+        elif key == "KEY_RIGHT" and y == 0:
+            stdscr.clear()
+            register_new_user(stdscr)
 
+        if y == 1:
+            stdscr.clear()
+            stdscr.addstr(1, 1, "Do you want us to randomly generate you a password or, enter your own", curses.A_REVERSE)
+            stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
+            rectangle(stdscr, 0, 0, 7, 70)
+            stdscr.addstr(3, 1, "Randomly Generated Password", curses.A_REVERSE)
+            stdscr.addstr(4, 1, "Enter your own")
+        elif y == 0:
+            stdscr.clear()
+            stdscr.addstr(1, 1, "Do you want us to randomly generate you a password or, enter your own", curses.A_REVERSE)
+            stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
+            rectangle(stdscr, 0, 0, 7, 70)
+            stdscr.addstr(3, 1, "Randomly Generated Password")
+            stdscr.addstr(4, 1, "Enter your own", curses.A_REVERSE)
+        if y >= 1:
+            y = 1
+        elif y <= 0:
+            y = 0
+    
+
+def register_new_user_RAND(stdscr):
+    #User wants to set their own password
+    stdscr.refresh()
+    stdscr.addstr(1, 1, "Please enter a valid username and password", curses.A_REVERSE)
+    stdscr.addstr(2, 1, "'Ctrl + G' to finish typing and move to the next box [Emacs]")
+    stdscr.addstr(3, 1, "_ _ _ _ _ _ _ _ _ _ _")
+
+    un_window = curses.newwin(1, 30, 7, 2)
+    pass_window = curses.newwin(1, 30, 11, 2)
+    un_box = Textbox(un_window)
+    email_box = Textbox(pass_window)
+    stdscr.addstr(5, 1, "Username:", curses.A_REVERSE)
+    stdscr.addstr(9, 1, "Email:", curses.A_REVERSE)
+    rectangle(stdscr, 6, 1, 8, 32)
+    rectangle(stdscr, 10, 1, 12, 32)
+    stdscr.refresh()
+    un_box.edit()
+    email_box.edit()
+
+    username_text = un_box.gather()
+    email_text = email_box.gather()
+
+
+    #These are placeholders, this should be removed in production
+    stdscr.addstr(13, 1, "Username: " + username_text)
+    stdscr.addstr(14, 1, "Email: " + email_text)
+    
+    stdscr.getch()
+    stdscr.clear()
+    main(stdscr)
+
+def register_new_user(stdscr):
+    #User wants to randomly generate their password
+    stdscr.refresh()
+    stdscr.addstr(1, 1, "Please enter a valid username, password and email address.", curses.A_REVERSE)
+    stdscr.addstr(2, 1, "'Ctrl + G' to finish typing and move to the next box [Emacs]")
+    stdscr.addstr(3, 1, "_ _ _ _ _ _ _ _ _ _ _")
+
+    un_window = curses.newwin(1, 30, 7, 2)
+    pass_window = curses.newwin(1, 30, 11, 2)
+    email_window = curses.newwin(1, 30, 15, 2)
+    un_box = Textbox(un_window)
+    pass_box = Textbox(pass_window)
+    email_box = Textbox(email_window)
+    stdscr.addstr(5, 1, "Username:", curses.A_REVERSE)
+    stdscr.addstr(9, 1, "Password:", curses.A_REVERSE)
+    stdscr.addstr(13, 1, "Email:", curses.A_REVERSE)
+    rectangle(stdscr, 6, 1, 8, 32)
+    rectangle(stdscr, 10, 1, 12, 32)
+    rectangle(stdscr, 14, 1, 16, 32)
+    stdscr.refresh()
+    un_box.edit()
+    pass_box.edit()
+    email_box.edit()
+
+    username_text = un_box.gather()
+    password_text = pass_box.gather()
+    email_text = email_box.gather()
+
+
+    #These are placeholders, this should be removed in production
+    stdscr.addstr(19, 1, "Username: " + username_text)
+    stdscr.addstr(20, 1, "Password: " + password_text)
+    stdscr.addstr(21, 1, "Email: " + email_text)
+    
+    stdscr.getch()
+    main(stdscr)
 
 def login(stdscr):
     stdscr.refresh()
@@ -166,6 +291,62 @@ def login(stdscr):
     stdscr.getch()
     stdscr.clear()
     login_func(stdscr, username_text, password_text)
+
+def register(stdscr):
+    y = 0
+    stdscr.addstr(1, 1, "Register or Reset Password?", curses.A_REVERSE)
+    stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _")
+    rectangle(stdscr, 0, 0, 7, 27,)
+    stdscr.addstr(3, 1, "Register New Account")
+    stdscr.addstr(4, 1, "Reset Password", curses.A_REVERSE)
+    stdscr.addstr(5, 1, "Return to Main Menu")
+    
+    while True:
+        key = stdscr.getkey()
+        if key == "KEY_UP":
+            y += 1
+        elif key == "KEY_DOWN":
+            y -= 1
+        elif key == "KEY_RIGHT" and y == 1:
+            stdscr.clear()
+            select_password_type(stdscr)
+        elif key == "KEY_RIGHT" and y == 0:
+            stdscr.clear()
+            pass
+        elif key == "KEY_RIGHT" and y == -1:
+            stdscr.clear()
+            main(stdscr)
+
+        if y == 1:
+            stdscr.clear()
+            stdscr.addstr(1, 1, "Register or Reset Password?", curses.A_REVERSE)
+            stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _")
+            rectangle(stdscr, 0, 0, 7, 27, )
+            stdscr.addstr(3, 1, "Register New Account", curses.A_REVERSE)
+            stdscr.addstr(4, 1, "Reset Password")
+            stdscr.addstr(5, 1, "Return to Main Menu")
+        elif y == 0:
+            stdscr.clear()
+            stdscr.addstr(1, 1, "Register or Reset Password?", curses.A_REVERSE)
+            stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _")
+            rectangle(stdscr, 0, 0, 7, 27, )
+            stdscr.addstr(3, 1, "Register New Account")
+            stdscr.addstr(4, 1, "Reset Password", curses.A_REVERSE)
+            stdscr.addstr(5, 1, "Return to Main Menu")
+        elif y == -1:
+            stdscr.clear()
+            stdscr.addstr(1, 1, "Register or Reset Password?", curses.A_REVERSE)
+            stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _")
+            rectangle(stdscr, 0, 0, 7, 27, )
+            stdscr.addstr(3, 1, "Register New Account")
+            stdscr.addstr(4, 1, "Reset Password")
+            stdscr.addstr(5, 1, "Return to Main Menu", curses.A_REVERSE)
+        if y >= 1:
+            y = 1
+        elif y <= -1:
+            y = -1
+
+
     
 wrapper(main)
 
