@@ -1,4 +1,29 @@
   //                          //
+ //////[ 01 - 11 - 2022 ]//////
+//                          //
+
+DONE:
+
+- Password Validator is done
+  - Password validator function checks length and checks if password is valid to within Gelos standards
+  - User can enter a password and new account and if their password is not valid it will refuse
+  - Users can randomly generate a password that is valid within standards and then it will output all
+  
+TO-DO:
+
+- validators on the inputs
+- have it that the login updates last login
+- Systems admin stuff
+- Pretty table accounts output function for the sysadmin -- I am thinking the way to go about it is to just say bugger it and then store it as plaintext and then on the command that outputs the accounts.json in a beautified table for the SysAdmin that we just have it omit the password as "XXXXXXXX" or whatever?
+
+NON CRITICAL TO-DO: 
+
+- None yet
+
+====================================================================
+====================================================================
+
+  //                          //
  //////[ 31 - 10 - 2022 ]//////
 //                          //
 

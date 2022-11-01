@@ -4,6 +4,7 @@ from curses import wrapper
 from curses.textpad import Textbox, rectangle
 from register import register
 import time
+import random
 
 fails = 0
 start_time = time.time()
@@ -103,6 +104,56 @@ def goodbye():
     time.sleep(2.5)
     exit()
 
+# // PASSWORD VALIDATION //
+
+def password_char_validate(password):
+        #Prepare Bools
+        special = False
+        digit = False
+        lowCaps = False
+        upCaps = False
+
+        #Loop over each character in the password to check these four conditionals
+        for char in password:
+            if(not char.isalnum()):
+                special = True
+            if(char.isdigit()):
+                digit = True
+            if(char.islower()):
+                lowCaps = True
+            if(char.isupper()):
+                upCaps = True
+        # Return true only if all four conditionals are true
+        return special and digit and lowCaps and upCaps 
+
+
+def password_validate(password):
+    if len(password) >= 8:
+        if password_char_validate(password) == True:
+            return True
+        else:
+            return False
+    else:
+        return False
+
+# // PASSWORD VALIDATION //
+
+def password_generator():
+    salt = "wxyz12ABCDEFGH3abcdefgIJKLMNO4567hijklm89nopPQRSTUVqrstuvWXYZ!@#$%^&*()_-+}{><]["
+
+    rand_password = ""
+
+    while password_char_validate(rand_password) == False:
+        x = 0
+        rand_password = ""
+
+        while x < 8:
+                
+                password_char = random.choice(salt)
+                rand_password = rand_password + password_char
+                x += 1
+    
+    return rand_password
 
 def failed_counter(stdscr):
     global fails
@@ -195,7 +246,7 @@ def select_password_type(stdscr):
     
 
 def register_new_user_RAND(stdscr):
-    #User wants to set their own password
+    #User wants a random password
     stdscr.refresh()
     stdscr.addstr(1, 1, "Please enter a valid username and password", curses.A_REVERSE)
     stdscr.addstr(2, 1, "'Ctrl + G' to finish typing and move to the next box [Emacs]")
@@ -220,13 +271,14 @@ def register_new_user_RAND(stdscr):
     #These are placeholders, this should be removed in production
     stdscr.addstr(13, 1, "Username: " + username_text)
     stdscr.addstr(14, 1, "Email: " + email_text)
+    stdscr.addstr(15, 1, "Password: " + password_generator())
     
     stdscr.getch()
     stdscr.clear()
     main(stdscr)
 
 def register_new_user(stdscr):
-    #User wants to randomly generate their password
+    #User wants their own password
     stdscr.refresh()
     stdscr.addstr(1, 1, "Please enter a valid username, password and email address.", curses.A_REVERSE)
     stdscr.addstr(2, 1, "'Ctrl + G' to finish typing and move to the next box [Emacs]")
@@ -260,7 +312,15 @@ def register_new_user(stdscr):
     stdscr.addstr(21, 1, "Email: " + email_text)
     
     stdscr.getch()
-    main(stdscr)
+
+    #This works but its not every syntatic, maybe try give the user some better feedback? Not really possible with a function so maybe just a blanket errorr
+    if password_validate(password_text) == True:
+        stdscr.clear()
+        main(stdscr)
+    else:
+        stdscr.clear()
+        register_new_user(stdscr)
+    
 
 def login(stdscr):
     stdscr.refresh()
