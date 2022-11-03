@@ -1,4 +1,5 @@
 import curses
+import datetime
 import json
 from curses import wrapper
 from curses.textpad import Textbox, rectangle
@@ -243,6 +244,27 @@ def select_password_type(stdscr):
             y = 1
         elif y <= 0:
             y = 0
+
+def add_user(username_text, password_text, email_text):
+    today_date = str(datetime.date.today())
+    #Open json file in read mode, assign the array to a dictionary named accounts
+    with open("accounts.json", "r") as f:
+        accounts = json.load(f)
+
+    #Construct a dictionary for our new user (we could theoretically use input variables for these)
+    new_user = [{'username': username_text, 'password': password_text, 'email': email_text, 'next_login_msg': '', 'last_login': today_date, 'pwd_change': today_date }]
+    
+#Take the existing dictionary, attach the new dictionary to it
+    accounts[username_text] = new_user
+
+    with open("accounts.json", "w") as f:
+        json.dump(accounts, f, indent = 2)
+
+    print(new_user)
+    print("- - - - - - - - - - - -")
+    print(accounts)
+    exit()
+
     
 
 def register_new_user_RAND(stdscr):
@@ -265,15 +287,21 @@ def register_new_user_RAND(stdscr):
     email_box.edit()
 
     username_text = un_box.gather()
+    password_text = password_generator()
     email_text = email_box.gather()
 
 
     #These are placeholders, this should be removed in production
     stdscr.addstr(13, 1, "Username: " + username_text)
     stdscr.addstr(14, 1, "Email: " + email_text)
-    stdscr.addstr(15, 1, "Password: " + password_generator())
+    stdscr.addstr(15, 1, "Password: " + password_text)
     
     stdscr.getch()
+
+    add_user(username_text, password_text, email_text)
+
+    # Add User and then redirect to new screen
+
     stdscr.clear()
     main(stdscr)
 
@@ -312,6 +340,13 @@ def register_new_user(stdscr):
     stdscr.addstr(21, 1, "Email: " + email_text)
     
     stdscr.getch()
+
+    add_user(username_text, password_text, email_text)
+
+    # Add User and then redirect to new screen
+
+    stdscr.clear()
+    main(stdscr)
 
     #This works but its not every syntatic, maybe try give the user some better feedback? Not really possible with a function so maybe just a blanket errorr
     if password_validate(password_text) == True:

@@ -14,7 +14,7 @@ new_user = {'new_user' : [{'username': 'new_user', 'password': 'Y%z|%"oC@', 'ema
 new_user1 = [{'username': 'new_user', 'password': 'Y%z|%"oC@', 'email': '123Brown@gmail.com', 'next_login_msg': '', 'last_login': '2021-12-04', 'pwd_change': '2021-11-26'}]
 
 #Take the existing dictionary, attach the new dictionary to it
-# accounts["new_user"] = new_user1
+accounts["new_user"] = new_user1
 
 print("After Add: ")
 print(accounts)
