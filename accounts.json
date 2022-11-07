@@ -119,9 +119,9 @@
       "pwd_change": "2022-10-10"
     }
   ],
-  "Test_User01 ": [
+  "Test_User01": [
     {
-      "username": "Test_User01 ",
+      "username": "Test_User01",
       "password": "LQ$4[hu&",
       "email": "test@test.com.au ",
       "next_login_msg": "",
@@ -129,14 +129,24 @@
       "pwd_change": "2022-11-03"
     }
   ],
-  "Test_Non_Rand ": [
+  "Test_Non_Rand": [
     {
-      "username": "Test_Non_Rand ",
-      "password": "Password123! ",
+      "username": "Test_Non_Rand",
+      "password": "Password123!",
       "email": "Not@Realemail.com.au ",
       "next_login_msg": "",
       "last_login": "2022-11-03",
       "pwd_change": "2022-11-03"
+    }
+  ],
+  "TestInput": [
+    {
+      "username": "TestInput",
+      "password": "Password123!",
+      "email": "test@test.com",
+      "next_login_msg": "",
+      "last_login": "2022-11-07",
+      "pwd_change": "2022-11-07"
     }
   ]
 }

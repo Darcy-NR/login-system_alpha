@@ -1,4 +1,28 @@
   //                          //
+ //////[ 07 - 11 - 2022 ]//////
+//                          //
+
+DONE:
+
+- Fixed a bug with the login system
+- Added a placeholder function for reset password for tomorrow.
+
+  
+TO-DO:
+
+- validators on the inputs
+- have it that the login updates last login
+  - Takes user account, replaces the last_login with current date? I think that should work but theres a chance that it just wipes the whole entry, we'll see
+- Systems admin stuff
+- Pretty table accounts output function for the sysadmin -- I am thinking the way to go about it is to just say bugger it and then store it as plaintext and then on the command that outputs the accounts.json in a beautified table for the SysAdmin that we just have it omit the password as "XXXXXXXX" or whatever?
+
+NON CRITICAL TO-DO: 
+
+- None yet
+
+====================================================================
+====================================================================
+  //                          //
  //////[ 03 - 11 - 2022 ]//////
 //                          //
 

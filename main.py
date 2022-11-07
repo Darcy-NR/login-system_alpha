@@ -246,6 +246,10 @@ def select_password_type(stdscr):
             y = 0
 
 def add_user(username_text, password_text, email_text):
+    username_text.strip()
+    password_text.strip()
+    email_text.strip()
+
     today_date = str(datetime.date.today())
     #Open json file in read mode, assign the array to a dictionary named accounts
     with open("accounts.json", "r") as f:
@@ -265,8 +269,12 @@ def add_user(username_text, password_text, email_text):
     print(accounts)
     exit()
 
-    
-
+def reset_password(username_text, password_text, email_text):
+    pass
+    # - Take input
+    # - Construct object
+    # - Presumably, I can just do what I did with add user, but set the object to == the username and that should overwrite the account?
+        # - That also means I can still demand an email, which I can pretend is a security feature (if you need to reset you need to know your email?)
 def register_new_user_RAND(stdscr):
     #User wants a random password
     stdscr.refresh()
@@ -286,9 +294,9 @@ def register_new_user_RAND(stdscr):
     un_box.edit()
     email_box.edit()
 
-    username_text = un_box.gather()
-    password_text = password_generator()
-    email_text = email_box.gather()
+    username_text = un_box.gather().strip()
+    password_text = password_generator().strip()
+    email_text = email_box.gather().strip()
 
 
     #These are placeholders, this should be removed in production
@@ -329,9 +337,9 @@ def register_new_user(stdscr):
     pass_box.edit()
     email_box.edit()
 
-    username_text = un_box.gather()
-    password_text = pass_box.gather()
-    email_text = email_box.gather()
+    username_text = un_box.gather().strip()
+    password_text = pass_box.gather().strip()
+    email_text = email_box.gather().strip()
 
 
     #These are placeholders, this should be removed in production
@@ -375,13 +383,13 @@ def login(stdscr):
     un_box.edit()
     pass_box.edit()
 
-    username_text = un_box.gather()
-    password_text = pass_box.gather()
+    username_text = un_box.gather().strip()
+    password_text = pass_box.gather().strip()
 
 
     #These are placeholders, this should be removed in production
-    stdscr.addstr(13, 1, "Username: " + username_text)
-    stdscr.addstr(14, 1, "Password: " + password_text)
+    stdscr.addstr(13, 1, "Username: " + username_text + "|")
+    stdscr.addstr(14, 1, "Password: " + password_text + "|")
     
     stdscr.getch()
     stdscr.clear()
