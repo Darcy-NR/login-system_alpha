@@ -271,10 +271,12 @@ def add_user(username_text, password_text, email_text):
 
 def reset_password(username_text, password_text, email_text):
     pass
+# PROBABLY DON'T NEED THIS ANYMORE REMOVE ME DURING CLEANUP STAGE
     # - Take input
     # - Construct object
     # - Presumably, I can just do what I did with add user, but set the object to == the username and that should overwrite the account?
         # - That also means I can still demand an email, which I can pretend is a security feature (if you need to reset you need to know your email?)
+
 def register_new_user_RAND(stdscr):
     #User wants a random password
     stdscr.refresh()
@@ -363,7 +365,105 @@ def register_new_user(stdscr):
     else:
         stdscr.clear()
         register_new_user(stdscr)
+
+def retrieve_account(username_text):
+    # username_text.strip()
+    with open("accounts.json", "r") as f:
+        all_acc = json.load(f)
+        singleton = all_acc[username_text]
+    return singleton
+
+def is_account(username_text):
+    # username_text.strip()
+    with open("accounts.json", "r") as f:
+        all_acc = json.load(f)
+    try:
+        singleton = all_acc[username_text]
+    except:
+        return False
+    else:
+        return True
+
+def reset_pass_view(username_text, stdscr):
+    stdscr.clear()
+    retrieved_user = retrieve_account(username_text)
+    #User wants their own password
+    stdscr.refresh()
+    stdscr.addstr(1, 1, "Please provide the email associated with this account, and a new password.", curses.A_REVERSE)
+    stdscr.addstr(2, 1, "'Ctrl + G' to finish typing and move to the next box [Emacs]")
+    stdscr.addstr(3, 1, "_ _ _ _ _ _ _ _ _ _ _")
+
+    email_window = curses.newwin(1, 30, 10, 2)
+    pass_window = curses.newwin(1, 30, 14, 2)
+    email_box = Textbox(email_window)
+    pass_box = Textbox(pass_window)
+    stdscr.addstr(5, 1, username_text, curses.A_REVERSE)
+    stdscr.addstr(6, 1, "_ _ _ _ _ _ _ _ _ _ _")
+    stdscr.addstr(8, 1, "Email:", curses.A_REVERSE)
+    stdscr.addstr(12, 1, "New Password:", curses.A_REVERSE)
+    rectangle(stdscr, 9, 1, 11, 32)
+    rectangle(stdscr, 13, 1, 15, 32)
+
+    stdscr.refresh()
+    email_box.edit()
+    pass_box.edit()
+
+
+    # username_text = un_box.gather().strip()
+    password_text = pass_box.gather().strip()
+    email_text = email_box.gather().strip()
+
+    with open("accounts.json", "r") as f:
+        all_acc = json.load(f)
     
+    singleton = all_acc[username_text]
+    for item in singleton:
+        stored_email = item.get("email")
+    
+    if email_text == stored_email:
+        print("This email matches the stored email :)")
+        add_user(username_text, password_text, email_text)
+    else:
+        stdscr.clear()
+        register(stdscr)
+
+
+    stdscr.getch()
+
+    # Add User and then redirect to new screen
+
+    stdscr.clear()
+    main(stdscr)
+    
+def reset_pass_username_view(stdscr):
+    stdscr.refresh()
+    stdscr.addstr(1, 1, "Please enter your username", curses.A_REVERSE)
+    stdscr.addstr(2, 1, "'Ctrl + G' to finish typing [Emacs]")
+    stdscr.addstr(3, 1, "_ _ _ _ _ _ _ _ _ _ _")
+
+    un_window = curses.newwin(1, 30, 7, 2)
+    pass_window = curses.newwin(1, 30, 11, 2)
+    un_box = Textbox(un_window)
+    stdscr.addstr(5, 1, "Username:", curses.A_REVERSE)
+    rectangle(stdscr, 6, 1, 8, 32)
+    stdscr.refresh()
+    un_box.edit()
+
+    username_text = un_box.gather().strip()
+
+    stdscr.addstr(10, 1, "Username: ", curses.A_REVERSE)
+    stdscr.addstr(11, 1, username_text + "||", curses.A_REVERSE)
+    stdscr.getch()
+
+
+    if is_account(username_text) == True:
+        reset_pass_view(username_text, stdscr)
+    else:
+        # PLACEHOLDER
+        print("No Such User TEST")
+        exit()
+
+
 
 def login(stdscr):
     stdscr.refresh()
@@ -415,7 +515,7 @@ def register(stdscr):
             select_password_type(stdscr)
         elif key == "KEY_RIGHT" and y == 0:
             stdscr.clear()
-            pass
+            reset_pass_username_view(stdscr)
         elif key == "KEY_RIGHT" and y == -1:
             stdscr.clear()
             main(stdscr)

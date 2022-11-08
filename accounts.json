@@ -123,7 +123,7 @@
     {
       "username": "Test_User01",
       "password": "LQ$4[hu&",
-      "email": "test@test.com.au ",
+      "email": "test@test.com.au",
       "next_login_msg": "",
       "last_login": "2022-11-03",
       "pwd_change": "2022-11-03"
@@ -132,21 +132,21 @@
   "Test_Non_Rand": [
     {
       "username": "Test_Non_Rand",
-      "password": "Password123!",
-      "email": "Not@Realemail.com.au ",
+      "password": "Password321!",
+      "email": "Not@Realemail.com.au",
       "next_login_msg": "",
-      "last_login": "2022-11-03",
-      "pwd_change": "2022-11-03"
+      "last_login": "2022-11-08",
+      "pwd_change": "2022-11-08"
     }
   ],
   "TestInput": [
     {
       "username": "TestInput",
-      "password": "Password123!",
+      "password": "Test123",
       "email": "test@test.com",
       "next_login_msg": "",
-      "last_login": "2022-11-07",
-      "pwd_change": "2022-11-07"
+      "last_login": "2022-11-08",
+      "pwd_change": "2022-11-08"
     }
   ]
 }
