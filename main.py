@@ -167,6 +167,7 @@ def failed_counter(stdscr):
     return
 
 def login_func(stdscr, username_text, password_text):
+    today_date = str(datetime.date.today())
 
     # Strip trailing space from input (also probably sanitize)
     username = username_text.strip()
@@ -191,6 +192,7 @@ def login_func(stdscr, username_text, password_text):
             
             # Write password to .get("password")
             stored_pass = account.get("password")
+            email_text = account.get("email")
 
             #Compare input password to stored password
 
@@ -199,6 +201,9 @@ def login_func(stdscr, username_text, password_text):
                 print(":>")
                 global welcome_message
                 welcome_message = account.get("next_login_msg")
+
+                add_user(username_text, password_text, email_text, password_changed = False, login = True)
+
                 logged_in(stdscr)
             else:
                 failed_counter(stdscr)
@@ -245,7 +250,49 @@ def select_password_type(stdscr):
         elif y <= 0:
             y = 0
 
-def add_user(username_text, password_text, email_text):
+def select_reset_password_type(stdscr):
+    #User needs to select if they want to generate their own password or have it randomly generated
+    y = 1
+    stdscr.clear()
+    stdscr.addstr(1, 1, "Do you want us to randomly generate you a password or, enter your own", curses.A_REVERSE)
+    stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
+    rectangle(stdscr, 0, 0, 7, 70)
+    stdscr.addstr(3, 1, "Randomly Generated Password", curses.A_REVERSE)
+    stdscr.addstr(4, 1, "Enter your own")
+    
+    while True:
+        key = stdscr.getkey()
+        if key == "KEY_UP":
+            y += 1
+        elif key == "KEY_DOWN":
+            y -= 1
+        elif key == "KEY_RIGHT" and y == 1:
+            stdscr.clear()
+            reset_pass_username_view(stdscr, resetRand = True)
+        elif key == "KEY_RIGHT" and y == 0:
+            stdscr.clear()
+            reset_pass_username_view(stdscr, resetRand = False)
+
+        if y == 1:
+            stdscr.clear()
+            stdscr.addstr(1, 1, "Do you want us to randomly generate you a password or, enter your own", curses.A_REVERSE)
+            stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
+            rectangle(stdscr, 0, 0, 7, 70)
+            stdscr.addstr(3, 1, "Randomly Generated Password", curses.A_REVERSE)
+            stdscr.addstr(4, 1, "Enter your own")
+        elif y == 0:
+            stdscr.clear()
+            stdscr.addstr(1, 1, "Do you want us to randomly generate you a password or, enter your own", curses.A_REVERSE)
+            stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
+            rectangle(stdscr, 0, 0, 7, 70)
+            stdscr.addstr(3, 1, "Randomly Generated Password")
+            stdscr.addstr(4, 1, "Enter your own", curses.A_REVERSE)
+        if y >= 1:
+            y = 1
+        elif y <= 0:
+            y = 0
+
+def add_user(username_text, password_text, email_text, password_changed, login):
     username_text.strip()
     password_text.strip()
     email_text.strip()
@@ -255,19 +302,58 @@ def add_user(username_text, password_text, email_text):
     with open("accounts.json", "r") as f:
         accounts = json.load(f)
 
-    #Construct a dictionary for our new user (we could theoretically use input variables for these)
-    new_user = [{'username': username_text, 'password': password_text, 'email': email_text, 'next_login_msg': '', 'last_login': today_date, 'pwd_change': today_date }]
-    
-#Take the existing dictionary, attach the new dictionary to it
-    accounts[username_text] = new_user
+    if login == True:
+        #Construct a dictionary for our new user (we could theoretically use input variables for these)
 
-    with open("accounts.json", "w") as f:
-        json.dump(accounts, f, indent = 2)
+        for item in accounts[username_text]:
+            pwd_change = item.get("pwd_change")
 
-    print(new_user)
-    print("- - - - - - - - - - - -")
-    print(accounts)
-    exit()
+        new_user = [{'username': username_text, 'password': password_text, 'email': email_text, 'next_login_msg': '', 'last_login': today_date, 'pwd_change': pwd_change}]
+        
+    #Take the existing dictionary, attach the new dictionary to it
+        accounts[username_text] = new_user
+
+        with open("accounts.json", "w") as f:
+            json.dump(accounts, f, indent = 2)
+
+        print(new_user)
+        print("- - - - - - - - - - - -")
+        print(accounts)
+        exit()
+
+    elif password_changed == True:
+                #Construct a dictionary for our new user (we could theoretically use input variables for these)
+
+        for item in accounts[username_text]:
+            last_login = item.get("last_login")
+
+        new_user = [{'username': username_text, 'password': password_text, 'email': email_text, 'next_login_msg': '', 'last_login': last_login, 'pwd_change': today_date }]
+        
+    #Take the existing dictionary, attach the new dictionary to it
+        accounts[username_text] = new_user
+
+        with open("accounts.json", "w") as f:
+            json.dump(accounts, f, indent = 2)
+
+        print(new_user)
+        print("- - - - - - - - - - - -")
+        print(accounts)
+        exit()
+
+    else:
+        #Construct a dictionary for our new user (we could theoretically use input variables for these)
+        new_user = [{'username': username_text, 'password': password_text, 'email': email_text, 'next_login_msg': '', 'last_login': today_date, 'pwd_change': today_date }]
+        
+    #Take the existing dictionary, attach the new dictionary to it
+        accounts[username_text] = new_user
+
+        with open("accounts.json", "w") as f:
+            json.dump(accounts, f, indent = 2)
+
+        print(new_user)
+        print("- - - - - - - - - - - -")
+        print(accounts)
+        exit()
 
 def reset_password(username_text, password_text, email_text):
     pass
@@ -308,7 +394,7 @@ def register_new_user_RAND(stdscr):
     
     stdscr.getch()
 
-    add_user(username_text, password_text, email_text)
+    add_user(username_text, password_text, email_text, password_changed = False, login = False)
 
     # Add User and then redirect to new screen
 
@@ -351,7 +437,7 @@ def register_new_user(stdscr):
     
     stdscr.getch()
 
-    add_user(username_text, password_text, email_text)
+    add_user(username_text, password_text, email_text, password_changed = False, login = False)
 
     # Add User and then redirect to new screen
 
@@ -408,9 +494,54 @@ def reset_pass_view(username_text, stdscr):
     email_box.edit()
     pass_box.edit()
 
+    password_text = pass_box.gather().strip()
+    email_text = email_box.gather().strip()
+
+    if password_validate(password_text) == True:
+
+        with open("accounts.json", "r") as f:
+            all_acc = json.load(f)
+    
+        singleton = all_acc[username_text]
+        
+        for item in singleton:
+            stored_email = item.get("email")
+    
+        if email_text == stored_email:
+            print("This email matches the stored email :)")
+            add_user(username_text, password_text, email_text, password_changed = True, login = False)
+        else:
+            stdscr.clear()
+            register(stdscr)
+
+    else:
+        reset_pass_view(username_text, stdscr)
+        # Again this works but its not very syntatic, this needs feedback once the app is finished
+
+def reset_pass_RAND_view(username_text, stdscr):
+    stdscr.clear()
+    retrieved_user = retrieve_account(username_text)
+    #User wants their own password
+    stdscr.refresh()
+    stdscr.addstr(1, 1, "Please provide the email associated with this account.", curses.A_REVERSE)
+    stdscr.addstr(2, 1, "'Ctrl + G' to finish typing and move to the next box [Emacs]")
+    stdscr.addstr(3, 1, "_ _ _ _ _ _ _ _ _ _ _")
+
+    email_window = curses.newwin(1, 30, 10, 2)
+    email_box = Textbox(email_window)
+    stdscr.addstr(5, 1, username_text, curses.A_REVERSE)
+    stdscr.addstr(6, 1, "_ _ _ _ _ _ _ _ _ _ _")
+    stdscr.addstr(8, 1, "Email:", curses.A_REVERSE)
+    rectangle(stdscr, 9, 1, 11, 32)
+
+    stdscr.refresh()
+    email_box.edit()
+
+    stdscr.getch()
+
 
     # username_text = un_box.gather().strip()
-    password_text = pass_box.gather().strip()
+    password_text = password_generator().strip()
     email_text = email_box.gather().strip()
 
     with open("accounts.json", "r") as f:
@@ -422,20 +553,20 @@ def reset_pass_view(username_text, stdscr):
     
     if email_text == stored_email:
         print("This email matches the stored email :)")
-        add_user(username_text, password_text, email_text)
+        add_user(username_text, password_text, email_text, password_changed = True, login = False)
     else:
         stdscr.clear()
         register(stdscr)
 
 
-    stdscr.getch()
+    
 
     # Add User and then redirect to new screen
 
     stdscr.clear()
     main(stdscr)
     
-def reset_pass_username_view(stdscr):
+def reset_pass_username_view(stdscr, resetRand):
     stdscr.refresh()
     stdscr.addstr(1, 1, "Please enter your username", curses.A_REVERSE)
     stdscr.addstr(2, 1, "'Ctrl + G' to finish typing [Emacs]")
@@ -456,8 +587,10 @@ def reset_pass_username_view(stdscr):
     stdscr.getch()
 
 
-    if is_account(username_text) == True:
+    if is_account(username_text) == True and resetRand == False:
         reset_pass_view(username_text, stdscr)
+    elif is_account(username_text) == True and resetRand == True:
+        reset_pass_RAND_view(username_text, stdscr)
     else:
         # PLACEHOLDER
         print("No Such User TEST")
@@ -515,7 +648,7 @@ def register(stdscr):
             select_password_type(stdscr)
         elif key == "KEY_RIGHT" and y == 0:
             stdscr.clear()
-            reset_pass_username_view(stdscr)
+            select_reset_password_type(stdscr)
         elif key == "KEY_RIGHT" and y == -1:
             stdscr.clear()
             main(stdscr)

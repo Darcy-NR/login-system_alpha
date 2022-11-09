@@ -142,11 +142,11 @@
   "TestInput": [
     {
       "username": "TestInput",
-      "password": "Test123",
+      "password": "Password321!",
       "email": "test@test.com",
       "next_login_msg": "",
-      "last_login": "2022-11-08",
-      "pwd_change": "2022-11-08"
+      "last_login": "2022-11-09",
+      "pwd_change": "2022-11-09"
     }
   ]
 }

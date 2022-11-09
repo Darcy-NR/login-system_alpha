@@ -1,4 +1,33 @@
   //                          //
+ //////[ 09 - 11 - 2022 ]//////
+//                          //
+
+DONE:
+
+- Reset Password now works works instead of just sort of working
+  - User can select if they want to randomly generate the password or make their own
+  - if they make their own they have to validate it first
+  - add_user() now has parameter inputs as booleans so we can use the function across the code to do different things.
+  - accounts.json is now updated dynamically with last login and pwd change depending on what is done.
+  
+TO-DO:
+
+- Systems admin stuff
+- Pretty table accounts output function for the sysadmin -- I am thinking the way to go about it is to just say bugger it and then store it as plaintext and then on the command that outputs the accounts.json in a beautified table for the SysAdmin that we just have it omit the password as "XXXXXXXX" or whatever?
+- Fix syntactic feedback issues
+  - We'll probably do this via having a boilerplate view function that takes a variable string is as its input and then dynamically displays output
+  - That way we can just call on that view function whenever we need to do something and that can be what routes the user around.
+
+- We're basically done after that.
+
+NON CRITICAL TO-DO: 
+
+- As always make sure to pretty code up before submission
+
+====================================================================
+====================================================================
+
+  //                          //
  //////[ 08 - 11 - 2022 ]//////
 //                          //
 
