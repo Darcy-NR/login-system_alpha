@@ -1,4 +1,29 @@
   //                          //
+ //////[ 10 - 11 - 2022 ]//////
+//                          //
+
+DONE:
+
+- Systems admin account added and piped into a systems menu
+  - Menu lets sys admin print out a pretty table of the current accounts.json to user-tables folder
+  - This marks pretty much the final feature update! The app is basically done!
+
+  
+TO-DO:
+
+- Fix syntactic feedback issues
+  - This is all there really is left to do, is to make the UX a little less iffy, consider adding a boilerplate function for messages
+  - Finally clean up the code make it look nicer and make it easier to navigate
+  - Work on the documentation for the app, primarily the pseudocode and function design and run some bug tests
+
+NON CRITICAL TO-DO: 
+
+- As always make sure to pretty code up before submission
+
+====================================================================
+====================================================================
+
+  //                          //
  //////[ 09 - 11 - 2022 ]//////
 //                          //
 

@@ -1,11 +1,14 @@
 import curses
 import datetime
 import json
+from prettytable import PrettyTable, MARKDOWN
 from curses import wrapper
 from curses.textpad import Textbox, rectangle
 from register import register
 import time
 import random
+import uuid
+
 
 fails = 0
 start_time = time.time()
@@ -68,7 +71,84 @@ def main(stdscr):
             y = -1
         stdscr.refresh()
 
-def logged_in(stdscr):
+def pass_hider(pass_chars):
+    censored_pass = ""
+    y = 0
+    while y < pass_chars:
+        censored_pass += "#"
+        y += 1
+    return censored_pass
+
+
+def user_table_maker():
+    today_date = str(datetime.date.today())
+    new_uuid = uuid.uuid4()
+
+    with open("accounts.json", "r") as f:
+        
+        accounts = json.load(f)
+                    
+    accountsTable = PrettyTable(['Username', 'Password', 'Email', 'Next Login Message', 'Last Login', 'Password Changed'])
+
+    for account in accounts:
+        username_string = str(account)
+        user = accounts[username_string]
+        for item in user:
+            pass_chars = len(item.get("password"))
+            accountsTable.add_row([item.get("username"),pass_hider(pass_chars) , item.get("email"), item.get("next_login_msg"), item.get("last_login"), item.get("pwd_change")])
+
+    accountsTable.set_style(MARKDOWN)
+
+    export_file = open(f"user-tables/{today_date}--{str(new_uuid)}--users-table.txt", "w")
+    print(accountsTable, file = export_file)
+
+
+def systems_menu(stdscr):
+    y = 1
+    stdscr.clear()
+    stdscr.addstr(1, 1, "Welcome Administrator", curses.A_REVERSE)
+    stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
+    rectangle(stdscr, 0, 0, 7, 70)
+    stdscr.addstr(3, 1, "Print User Table", curses.A_REVERSE)
+    stdscr.addstr(4, 1, "Exit the App")
+    
+    while True:
+        key = stdscr.getkey()
+        if key == "KEY_UP":
+            y += 1
+        elif key == "KEY_DOWN":
+            y -= 1
+        elif key == "KEY_RIGHT" and y == 1:
+            stdscr.clear()
+            stdscr.addstr(1, 1, "Current User Table has been output to ~/user-tables/", curses.A_REVERSE)
+            stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
+            user_table_maker()
+            stdscr.getkey()
+            goodbye()
+        elif key == "KEY_RIGHT" and y == 0:
+            stdscr.clear()
+            goodbye()
+
+        if y == 1:
+            stdscr.clear()
+            stdscr.addstr(1, 1, "Welcome Administrator", curses.A_REVERSE)
+            stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
+            rectangle(stdscr, 0, 0, 7, 70)
+            stdscr.addstr(3, 1, "Print User Table", curses.A_REVERSE)
+            stdscr.addstr(4, 1, "Exit the App")
+        elif y == 0:
+            stdscr.clear()
+            stdscr.addstr(1, 1, "Welcome Administrator", curses.A_REVERSE)
+            stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
+            rectangle(stdscr, 0, 0, 7, 70)
+            stdscr.addstr(3, 1, "Print User Table")
+            stdscr.addstr(4, 1, "Exit the App", curses.A_REVERSE)
+        if y >= 1:
+            y = 1
+        elif y <= 0:
+            y = 0
+
+def logged_in(stdscr, sys_admin, username_text, password_text, email_text):
     stdscr.addstr(1, 1, "You have logged in", curses.A_REVERSE)
     if welcome_message:
         stdscr.addstr(2, 1, welcome_message)
@@ -77,6 +157,11 @@ def logged_in(stdscr):
     stdscr.addstr(3, 1, "_ _ _ _ _ _ _ _ _ _ _")
     rectangle(stdscr, 0, 0, 3, 46,)
     stdscr.getch()
+    if sys_admin == True:
+        print("Systems admin")
+        systems_menu(stdscr)
+    else:
+        add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed = False, login = True)
 
 def failed_login(stdscr, fails):
     if fails == 1:
@@ -202,9 +287,11 @@ def login_func(stdscr, username_text, password_text):
                 global welcome_message
                 welcome_message = account.get("next_login_msg")
 
-                add_user(username_text, password_text, email_text, password_changed = False, login = True)
-
-                logged_in(stdscr)
+                if account.get("username") == "SYS_ADMIN" and account.get("email") == "gelos@systemsadmin.com.au":
+                    sys_admin = True
+                else:
+                    sys_admin = False
+                logged_in(stdscr, sys_admin, username_text, password_text, email_text)
             else:
                 failed_counter(stdscr)
 
@@ -292,7 +379,7 @@ def select_reset_password_type(stdscr):
         elif y <= 0:
             y = 0
 
-def add_user(username_text, password_text, email_text, password_changed, login):
+def add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed, login):
     username_text.strip()
     password_text.strip()
     email_text.strip()
@@ -338,7 +425,7 @@ def add_user(username_text, password_text, email_text, password_changed, login):
         print(new_user)
         print("- - - - - - - - - - - -")
         print(accounts)
-        exit()
+        main(stdscr)
 
     else:
         #Construct a dictionary for our new user (we could theoretically use input variables for these)
@@ -392,9 +479,10 @@ def register_new_user_RAND(stdscr):
     stdscr.addstr(14, 1, "Email: " + email_text)
     stdscr.addstr(15, 1, "Password: " + password_text)
     
+    sys_admin = False
     stdscr.getch()
 
-    add_user(username_text, password_text, email_text, password_changed = False, login = False)
+    add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
 
     # Add User and then redirect to new screen
 
@@ -436,8 +524,9 @@ def register_new_user(stdscr):
     stdscr.addstr(21, 1, "Email: " + email_text)
     
     stdscr.getch()
+    sys_admin = False
 
-    add_user(username_text, password_text, email_text, password_changed = False, login = False)
+    add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
 
     # Add User and then redirect to new screen
 
@@ -509,7 +598,8 @@ def reset_pass_view(username_text, stdscr):
     
         if email_text == stored_email:
             print("This email matches the stored email :)")
-            add_user(username_text, password_text, email_text, password_changed = True, login = False)
+            sys_admin = False
+            add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed = True, login = False)
         else:
             stdscr.clear()
             register(stdscr)
@@ -553,7 +643,8 @@ def reset_pass_RAND_view(username_text, stdscr):
     
     if email_text == stored_email:
         print("This email matches the stored email :)")
-        add_user(username_text, password_text, email_text, password_changed = True, login = False)
+        sys_admin = False
+        add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed = True, login = False)
     else:
         stdscr.clear()
         register(stdscr)

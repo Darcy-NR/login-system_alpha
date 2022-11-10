@@ -1,4 +1,14 @@
 {
+  "SYS_ADMIN": [
+    {
+      "username": "SYS_ADMIN",
+      "password": "sys_admin_123",
+      "email": "gelos@systemsadmin.com.au",
+      "next_login_msg": "",
+      "last_login": "2022-11-10",
+      "pwd_change": "2022-11-10"
+    }
+  ],
   "carL1970": [
     {
       "username": "carL1970",
@@ -145,8 +155,18 @@
       "password": "Password321!",
       "email": "test@test.com",
       "next_login_msg": "",
-      "last_login": "2022-11-09",
+      "last_login": "2022-11-10",
       "pwd_change": "2022-11-09"
+    }
+  ],
+  "AnotherTest": [
+    {
+      "username": "AnotherTest",
+      "password": "eJ*S]7$%",
+      "email": "test@test.com",
+      "next_login_msg": "",
+      "last_login": "2022-11-10",
+      "pwd_change": "2022-11-10"
     }
   ]
 }
