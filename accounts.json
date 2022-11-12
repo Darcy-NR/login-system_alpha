@@ -152,21 +152,11 @@
   "TestInput": [
     {
       "username": "TestInput",
-      "password": "Password321!",
+      "password": "Password123!",
       "email": "test@test.com",
       "next_login_msg": "",
-      "last_login": "2022-11-10",
-      "pwd_change": "2022-11-09"
-    }
-  ],
-  "AnotherTest": [
-    {
-      "username": "AnotherTest",
-      "password": "eJ*S]7$%",
-      "email": "test@test.com",
-      "next_login_msg": "",
-      "last_login": "2022-11-10",
-      "pwd_change": "2022-11-10"
+      "last_login": "2022-11-12",
+      "pwd_change": "2022-11-12"
     }
   ]
 }

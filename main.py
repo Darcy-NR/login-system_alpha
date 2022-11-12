@@ -1,14 +1,13 @@
 import curses
 import datetime
 import json
-from prettytable import PrettyTable, MARKDOWN
 from curses import wrapper
 from curses.textpad import Textbox, rectangle
 from register import register
 import time
-import random
-import uuid
-
+from user_table_maker import user_table_maker
+from validators import password_char_validate, password_validate, password_generator, is_account
+from add_user import add_user
 
 fails = 0
 start_time = time.time()
@@ -70,38 +69,6 @@ def main(stdscr):
         elif y <= -1:
             y = -1
         stdscr.refresh()
-
-def pass_hider(pass_chars):
-    censored_pass = ""
-    y = 0
-    while y < pass_chars:
-        censored_pass += "#"
-        y += 1
-    return censored_pass
-
-
-def user_table_maker():
-    today_date = str(datetime.date.today())
-    new_uuid = uuid.uuid4()
-
-    with open("accounts.json", "r") as f:
-        
-        accounts = json.load(f)
-                    
-    accountsTable = PrettyTable(['Username', 'Password', 'Email', 'Next Login Message', 'Last Login', 'Password Changed'])
-
-    for account in accounts:
-        username_string = str(account)
-        user = accounts[username_string]
-        for item in user:
-            pass_chars = len(item.get("password"))
-            accountsTable.add_row([item.get("username"),pass_hider(pass_chars) , item.get("email"), item.get("next_login_msg"), item.get("last_login"), item.get("pwd_change")])
-
-    accountsTable.set_style(MARKDOWN)
-
-    export_file = open(f"user-tables/{today_date}--{str(new_uuid)}--users-table.txt", "w")
-    print(accountsTable, file = export_file)
-
 
 def systems_menu(stdscr):
     y = 1
@@ -189,57 +156,6 @@ def goodbye():
     print("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
     time.sleep(2.5)
     exit()
-
-# // PASSWORD VALIDATION //
-
-def password_char_validate(password):
-        #Prepare Bools
-        special = False
-        digit = False
-        lowCaps = False
-        upCaps = False
-
-        #Loop over each character in the password to check these four conditionals
-        for char in password:
-            if(not char.isalnum()):
-                special = True
-            if(char.isdigit()):
-                digit = True
-            if(char.islower()):
-                lowCaps = True
-            if(char.isupper()):
-                upCaps = True
-        # Return true only if all four conditionals are true
-        return special and digit and lowCaps and upCaps 
-
-
-def password_validate(password):
-    if len(password) >= 8:
-        if password_char_validate(password) == True:
-            return True
-        else:
-            return False
-    else:
-        return False
-
-# // PASSWORD VALIDATION //
-
-def password_generator():
-    salt = "wxyz12ABCDEFGH3abcdefgIJKLMNO4567hijklm89nopPQRSTUVqrstuvWXYZ!@#$%^&*()_-+}{><]["
-
-    rand_password = ""
-
-    while password_char_validate(rand_password) == False:
-        x = 0
-        rand_password = ""
-
-        while x < 8:
-                
-                password_char = random.choice(salt)
-                rand_password = rand_password + password_char
-                x += 1
-    
-    return rand_password
 
 def failed_counter(stdscr):
     global fails
@@ -379,77 +295,6 @@ def select_reset_password_type(stdscr):
         elif y <= 0:
             y = 0
 
-def add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed, login):
-    username_text.strip()
-    password_text.strip()
-    email_text.strip()
-
-    today_date = str(datetime.date.today())
-    #Open json file in read mode, assign the array to a dictionary named accounts
-    with open("accounts.json", "r") as f:
-        accounts = json.load(f)
-
-    if login == True:
-        #Construct a dictionary for our new user (we could theoretically use input variables for these)
-
-        for item in accounts[username_text]:
-            pwd_change = item.get("pwd_change")
-
-        new_user = [{'username': username_text, 'password': password_text, 'email': email_text, 'next_login_msg': '', 'last_login': today_date, 'pwd_change': pwd_change}]
-        
-    #Take the existing dictionary, attach the new dictionary to it
-        accounts[username_text] = new_user
-
-        with open("accounts.json", "w") as f:
-            json.dump(accounts, f, indent = 2)
-
-        print(new_user)
-        print("- - - - - - - - - - - -")
-        print(accounts)
-        exit()
-
-    elif password_changed == True:
-                #Construct a dictionary for our new user (we could theoretically use input variables for these)
-
-        for item in accounts[username_text]:
-            last_login = item.get("last_login")
-
-        new_user = [{'username': username_text, 'password': password_text, 'email': email_text, 'next_login_msg': '', 'last_login': last_login, 'pwd_change': today_date }]
-        
-    #Take the existing dictionary, attach the new dictionary to it
-        accounts[username_text] = new_user
-
-        with open("accounts.json", "w") as f:
-            json.dump(accounts, f, indent = 2)
-
-        print(new_user)
-        print("- - - - - - - - - - - -")
-        print(accounts)
-        main(stdscr)
-
-    else:
-        #Construct a dictionary for our new user (we could theoretically use input variables for these)
-        new_user = [{'username': username_text, 'password': password_text, 'email': email_text, 'next_login_msg': '', 'last_login': today_date, 'pwd_change': today_date }]
-        
-    #Take the existing dictionary, attach the new dictionary to it
-        accounts[username_text] = new_user
-
-        with open("accounts.json", "w") as f:
-            json.dump(accounts, f, indent = 2)
-
-        print(new_user)
-        print("- - - - - - - - - - - -")
-        print(accounts)
-        exit()
-
-def reset_password(username_text, password_text, email_text):
-    pass
-# PROBABLY DON'T NEED THIS ANYMORE REMOVE ME DURING CLEANUP STAGE
-    # - Take input
-    # - Construct object
-    # - Presumably, I can just do what I did with add user, but set the object to == the username and that should overwrite the account?
-        # - That also means I can still demand an email, which I can pretend is a security feature (if you need to reset you need to know your email?)
-
 def register_new_user_RAND(stdscr):
     #User wants a random password
     stdscr.refresh()
@@ -479,15 +324,15 @@ def register_new_user_RAND(stdscr):
     stdscr.addstr(14, 1, "Email: " + email_text)
     stdscr.addstr(15, 1, "Password: " + password_text)
     
-    sys_admin = False
     stdscr.getch()
 
-    add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
-
-    # Add User and then redirect to new screen
-
-    stdscr.clear()
-    main(stdscr)
+    if password_validate(password_text) == True:
+        sys_admin = False
+        add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
+        main(stdscr)
+    else:
+        stdscr.clear()
+        register_new_user(stdscr)
 
 def register_new_user(stdscr):
     #User wants their own password
@@ -526,16 +371,11 @@ def register_new_user(stdscr):
     stdscr.getch()
     sys_admin = False
 
-    add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
-
     # Add User and then redirect to new screen
-
-    stdscr.clear()
-    main(stdscr)
 
     #This works but its not every syntatic, maybe try give the user some better feedback? Not really possible with a function so maybe just a blanket errorr
     if password_validate(password_text) == True:
-        stdscr.clear()
+        add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
         main(stdscr)
     else:
         stdscr.clear()
@@ -547,17 +387,6 @@ def retrieve_account(username_text):
         all_acc = json.load(f)
         singleton = all_acc[username_text]
     return singleton
-
-def is_account(username_text):
-    # username_text.strip()
-    with open("accounts.json", "r") as f:
-        all_acc = json.load(f)
-    try:
-        singleton = all_acc[username_text]
-    except:
-        return False
-    else:
-        return True
 
 def reset_pass_view(username_text, stdscr):
     stdscr.clear()
@@ -648,9 +477,6 @@ def reset_pass_RAND_view(username_text, stdscr):
     else:
         stdscr.clear()
         register(stdscr)
-
-
-    
 
     # Add User and then redirect to new screen
 
@@ -777,7 +603,3 @@ def register(stdscr):
     
 wrapper(main)
 
-
-
-
-#MOTD generated from a prexisting library should go here

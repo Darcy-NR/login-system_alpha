@@ -1,4 +1,25 @@
   //                          //
+ //////[ 12 - 11 - 2022 ]//////
+//                          //
+
+DONE:
+
+- Prettied up the code a little, moved the code that could be moved into its own files and import them for ease of modularity, I don't think I can move anything else.
+
+  
+TO-DO:
+
+- Fix syntactic feedback issues
+- Add a comment index so that stuff is easier to navigate
+
+NON CRITICAL TO-DO: 
+
+- As always make sure to pretty code up before submission
+
+====================================================================
+====================================================================
+
+  //                          //
  //////[ 10 - 11 - 2022 ]//////
 //                          //
 
