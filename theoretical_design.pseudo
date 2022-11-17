@@ -1,0 +1,152 @@
+  //                            //
+ //== [ ADD USER PSEUDOCODE] ==//
+//                            //
+
+function add_user(username, password, email, password_change, login){
+
+    if password_change == True{
+        
+        accounts = file.read(accounts.json)
+        singleton = accounts[username]
+        
+        singleton["password_change"] = date.currentdate()
+        
+        accounts[username] = singleton
+        
+        accounts[username] = file.write(accounts.json)
+
+        main_menu()
+
+    } else if login == True {
+
+        accounts = file.read(accounts.json)
+        singleton = accounts[username]
+        
+        singleton["last_login"] = date.currentdate()
+        
+        accounts[username] = singleton
+        
+        accounts[username] = file.write(accounts.json)
+
+        main_menu()
+
+    } else {
+
+        new_account[
+            {
+                username : {
+                    "username" : username,
+                    "password" : password,
+                    "email" : email,
+                    "next_login_message" : "",
+                    "last_login" : date.currentdate()
+                    "pwd_change" : date.currentdate()
+                }
+            }
+        ]
+
+        new_account = file.write(accounts.json)
+
+        main_menu()
+    
+    }
+}
+
+  //                                //
+ //== [ LOGIN SYSTEM PSEUDOCODE] ==//
+//                                //
+
+
+function login(username, password){
+
+    accounts = file.read(accounts.json)
+
+    singleton = accounts[username]
+
+    if accounts[username] == True {
+
+        retrieved_password = singleton["password"]
+
+        if password == retrieved_password{
+            print : "You are logged in"
+            welcome(singleton["next_login_msg"])
+        } else {
+            print : "Invalid password, please try again"
+            fail_counter()
+        }
+
+    } else {
+        print: "There is no user with this username"
+    }
+
+}
+
+
+  //                                //
+ //== [ TABLE MAKER PSEUDOCODE]  ==//
+//                                //
+
+function password_hider(password){
+
+    password_length = length(password)
+    censored_password = ""
+    y = 0
+    while y < password_length {
+        censored_password += "X"
+        y += 1
+    }
+    return censored_password
+
+}
+
+function table_constructor(){
+
+    accounts = file.read(accounts.json)
+
+    table = Create.Table("Username", "Password", "Email", "Next Login Message", "Last Login", "Password Changed")
+
+    For object in account{
+    
+        password = accounts["password"]
+        
+        table.add_row(account["username"], password_hider(password), account["email"], account["next_login_msg"], account["last_login"], account["pwd_change"])
+
+    }
+
+    table = file.write("user-tables/" + {date.currentdate() + -- + uuid + -- "user-table.txt"})
+    
+}
+
+  //                                //
+ //== [ USER MESSAGE PSEUDOCODE] ==//
+//                                //
+
+function user_message(context){
+
+    message_1 = "Some kind of message that requires user attention."
+    message_2 = "Some kind of message that requires user attention."
+    message_3 = "Some kind of message that requires user attention."
+    message_4 = "Some kind of message that requires user attention."
+    (etc)
+
+    if context == "1" {
+
+    output_message = message_1
+
+    } else if context == "2" {
+
+        output_message = message_2
+
+    }else if context == "3" {
+
+        output_message = message_3
+
+    }else{
+
+        output_message = message_4
+
+    }
+
+return output_message
+
+}

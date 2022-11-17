@@ -1,7 +1,7 @@
 import datetime
 import json
 
-def add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed, login):
+def add_user(sys_admin, username_text, password_text, email_text, password_changed, login):
     username_text.strip()
     password_text.strip()
     email_text.strip()
@@ -24,11 +24,7 @@ def add_user(stdscr, sys_admin, username_text, password_text, email_text, passwo
 
         with open("accounts.json", "w") as f:
             json.dump(accounts, f, indent = 2)
-
-        print(new_user)
-        print("- - - - - - - - - - - -")
-        print(accounts)
-        exit()
+        return
 
     elif password_changed == True:
                 #Construct a dictionary for our new user (we could theoretically use input variables for these)
@@ -43,10 +39,7 @@ def add_user(stdscr, sys_admin, username_text, password_text, email_text, passwo
 
         with open("accounts.json", "w") as f:
             json.dump(accounts, f, indent = 2)
-
-        print(new_user)
-        print("- - - - - - - - - - - -")
-        print(accounts)
+        return
 
     else:
         #Construct a dictionary for our new user (we could theoretically use input variables for these)
@@ -58,7 +51,4 @@ def add_user(stdscr, sys_admin, username_text, password_text, email_text, passwo
         with open("accounts.json", "w") as f:
             json.dump(accounts, f, indent = 2)
 
-        print(new_user)
-        print("- - - - - - - - - - - -")
-        print(accounts)
-        exit()
+        return

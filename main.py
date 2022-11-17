@@ -8,6 +8,30 @@ import time
 from user_table_maker import user_table_maker
 from validators import password_char_validate, password_validate, password_generator, is_account
 from add_user import add_user
+from user_message import user_message
+
+# // INDEX // #
+
+# Main
+# System Menu
+# User Message View
+# Logged In
+# Failed login
+# Goodbye
+# Failed Counter
+# Login Func
+# Select Password Type
+# Select Password Type Random Generation
+# Register New User Random Generation
+# Register New User
+# Retrieve Account
+# Reset Pass View
+# Reset Pass Rand View
+# Reset Pass Username View
+# Login
+# Register
+
+# // INDEX // #
 
 fails = 0
 start_time = time.time()
@@ -115,6 +139,14 @@ def systems_menu(stdscr):
         elif y <= 0:
             y = 0
 
+def user_message_view(stdscr, context):
+    stdscr.clear()
+    stdscr.addstr(1, 1, "System Message: ", curses.A_REVERSE)
+    stdscr.addstr(2, 1, user_message(context))
+    stdscr.addstr(3, 1, "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
+    stdscr.getch()
+    goodbye()
+
 def logged_in(stdscr, sys_admin, username_text, password_text, email_text):
     stdscr.addstr(1, 1, "You have logged in", curses.A_REVERSE)
     if welcome_message:
@@ -125,21 +157,21 @@ def logged_in(stdscr, sys_admin, username_text, password_text, email_text):
     rectangle(stdscr, 0, 0, 3, 46,)
     stdscr.getch()
     if sys_admin == True:
-        print("Systems admin")
         systems_menu(stdscr)
     else:
-        add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed = False, login = True)
+        add_user(sys_admin, username_text, password_text, email_text, password_changed = False, login = True)
+        user_message_view(stdscr, 1)
 
 def failed_login(stdscr, fails):
     if fails == 1:
         stdscr.addstr(1, 1, "That Password is Invalid", curses.A_REVERSE)
-        stdscr.addstr(2, 1, "You have 2 tries remaining") #I want this to change colour or be red or something
+        stdscr.addstr(2, 1, "You have 2 tries remaining")
         stdscr.addstr(3, 1, "_ _ _ _ _ _ _ _ _ _ _")
         rectangle(stdscr, 0, 0, 3, 46,)
         stdscr.getch()
     elif fails == 2:
         stdscr.addstr(1, 1, "That Password is Invalid", curses.A_REVERSE)
-        stdscr.addstr(2, 1, "You have 1 try remaining") #I want this to change colour or be red or something
+        stdscr.addstr(2, 1, "You have 1 try remaining")
         stdscr.addstr(3, 1, "_ _ _ _ _ _ _ _ _ _ _")
         rectangle(stdscr, 0, 0, 3, 46,)
         stdscr.getch()
@@ -183,10 +215,9 @@ def login_func(stdscr, username_text, password_text):
         account_result = accounts[username]
     except:
        # then it will throw a key error therefore there is no account with that username, else...
-        print("there isn't an account with this username")
+        user_message_view(stdscr, 4)
     else:
         # else there is a username with that account
-        print("There is an account with this username")
 
         for account in accounts[username]:
             # Write the account[username] result to a for loop
@@ -198,8 +229,6 @@ def login_func(stdscr, username_text, password_text):
             #Compare input password to stored password
 
             if password == stored_pass:
-                print("Provided Password DOES match the stored password")
-                print(":>")
                 global welcome_message
                 welcome_message = account.get("next_login_msg")
 
@@ -328,8 +357,8 @@ def register_new_user_RAND(stdscr):
 
     if password_validate(password_text) == True:
         sys_admin = False
-        add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
-        main(stdscr)
+        add_user(sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
+        user_message_view(stdscr, 2)
     else:
         stdscr.clear()
         register_new_user(stdscr)
@@ -375,8 +404,8 @@ def register_new_user(stdscr):
 
     #This works but its not every syntatic, maybe try give the user some better feedback? Not really possible with a function so maybe just a blanket errorr
     if password_validate(password_text) == True:
-        add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
-        main(stdscr)
+        add_user(sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
+        user_message_view(stdscr, 2)
     else:
         stdscr.clear()
         register_new_user(stdscr)
@@ -426,16 +455,15 @@ def reset_pass_view(username_text, stdscr):
             stored_email = item.get("email")
     
         if email_text == stored_email:
-            print("This email matches the stored email :)")
             sys_admin = False
-            add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed = True, login = False)
+            add_user(sys_admin, username_text, password_text, email_text, password_changed = True, login = False)
+            user_message_view(stdscr, 3)
         else:
             stdscr.clear()
             register(stdscr)
 
     else:
         reset_pass_view(username_text, stdscr)
-        # Again this works but its not very syntatic, this needs feedback once the app is finished
 
 def reset_pass_RAND_view(username_text, stdscr):
     stdscr.clear()
@@ -471,9 +499,9 @@ def reset_pass_RAND_view(username_text, stdscr):
         stored_email = item.get("email")
     
     if email_text == stored_email:
-        print("This email matches the stored email :)")
         sys_admin = False
-        add_user(stdscr, sys_admin, username_text, password_text, email_text, password_changed = True, login = False)
+        add_user(sys_admin, username_text, password_text, email_text, password_changed = True, login = False)
+        user_message_view(stdscr, 3)
     else:
         stdscr.clear()
         register(stdscr)
@@ -509,9 +537,7 @@ def reset_pass_username_view(stdscr, resetRand):
     elif is_account(username_text) == True and resetRand == True:
         reset_pass_RAND_view(username_text, stdscr)
     else:
-        # PLACEHOLDER
-        print("No Such User TEST")
-        exit()
+        user_message_view(stdscr, 4)
 
 
 
