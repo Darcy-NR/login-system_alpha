@@ -1,4 +1,26 @@
   //                          //
+ //////[ 21 - 11 - 2022 ]//////
+//                          //
+
+DONE:
+
+- Added Hash and password validate function
+- Added check function for last password change so that the system warns the player when password is getting close to expiring and then redirects them to reset when it is expired.
+  
+TO-DO:
+
+- The last thing to add actually for real this time is the systems admin terminal view so they can edit next login messages
+- Also add in an email validator on input, then we're actually done.
+- Fix up the index now that theres new stuff
+
+NON CRITICAL TO-DO: 
+
+- As always make sure to pretty code up before submission
+
+====================================================================
+====================================================================
+
+  //                          //
  //////[ 12 - 11 - 2022 ]//////
 //                          //
 

@@ -9,6 +9,8 @@ from user_table_maker import user_table_maker
 from validators import password_char_validate, password_validate, password_generator, is_account
 from add_user import add_user
 from user_message import user_message
+from expiry_check import expiry_check
+from pw_encryption import encryption
 
 # // INDEX // #
 
@@ -148,13 +150,14 @@ def user_message_view(stdscr, context):
     goodbye()
 
 def logged_in(stdscr, sys_admin, username_text, password_text, email_text):
+
     stdscr.addstr(1, 1, "You have logged in", curses.A_REVERSE)
     if welcome_message:
         stdscr.addstr(2, 1, welcome_message)
     else:
-        stdscr.addstr(2, 1, "Placeholder Welcome Message")
+        stdscr.addstr(2, 1, "Welcome Back")
     stdscr.addstr(3, 1, "_ _ _ _ _ _ _ _ _ _ _")
-    rectangle(stdscr, 0, 0, 3, 46,)
+    rectangle(stdscr, 0, 0, 3, 65,)
     stdscr.getch()
     if sys_admin == True:
         systems_menu(stdscr)
@@ -228,15 +231,26 @@ def login_func(stdscr, username_text, password_text):
 
             #Compare input password to stored password
 
-            if password == stored_pass:
-                global welcome_message
-                welcome_message = account.get("next_login_msg")
+            if encryption(password_text=password, hashed=stored_pass, encrypt=False, validate=True) == True:
 
-                if account.get("username") == "SYS_ADMIN" and account.get("email") == "gelos@systemsadmin.com.au":
-                    sys_admin = True
+                if expiry_check(username_text,password_text, email_text) == True:
+                    
+                    with open("accounts.json", "r") as f:
+                        accounts = json.load(f)
+
+                    global welcome_message
+                    for account in accounts[username]:    
+                        welcome_message = account.get("next_login_msg")
+
+                    if account.get("username") == "SYS_ADMIN" and account.get("email") == "gelos@systemsadmin.com.au":
+                        sys_admin = True
+                    else:
+                        sys_admin = False
+                    logged_in(stdscr, sys_admin, username_text, password_text, email_text)
+
                 else:
-                    sys_admin = False
-                logged_in(stdscr, sys_admin, username_text, password_text, email_text)
+                    select_reset_password_type(stdscr)
+
             else:
                 failed_counter(stdscr)
 

@@ -2,7 +2,7 @@
   "SYS_ADMIN": [
     {
       "username": "SYS_ADMIN",
-      "password": "sys_admin_123",
+      "password": "f2dfae3be4b9d523f9daf365756d5142",
       "email": "gelos@systemsadmin.com.au",
       "next_login_msg": "",
       "last_login": "2022-11-10",
@@ -12,7 +12,7 @@
   "carL1970": [
     {
       "username": "carL1970",
-      "password": "Y%z|%\"oC@",
+      "password": "9f3f0803c0d1a2f73bc5ff804168225b",
       "email": "Brown@gmail.com",
       "next_login_msg": "Please update your system.",
       "last_login": "2021-12-04",
@@ -22,7 +22,7 @@
   "CarBOY123": [
     {
       "username": "CarBOY123",
-      "password": "@A@AVo\"\")",
+      "password": "231e00fd64cef51bfde375b6f8c54fab",
       "email": "Wilkin1@hotmail.com",
       "next_login_msg": "",
       "last_login": "2022-02-15",
@@ -32,7 +32,7 @@
   "T12345678": [
     {
       "username": "T12345678",
-      "password": "O[SOACCA",
+      "password": "84833ffb9324acc0b41faf82498737e5",
       "email": "CSchilt@hotmail.com",
       "next_login_msg": "Please update your system.",
       "last_login": "2022-03-09",
@@ -42,7 +42,7 @@
   "NepalNe2": [
     {
       "username": "NepalNe2",
-      "password": "%\"\"oX}|uCC>",
+      "password": "db8ec44297954061cefd8898bcc26156",
       "email": "ENepal@outlook.com",
       "next_login_msg": "",
       "last_login": "2022-03-18",
@@ -52,17 +52,17 @@
   "Gamer2001": [
     {
       "username": "Gamer2001",
-      "password": "w#oul/C]^",
+      "password": "e8823a8cb80dbcdc035e6370edde1fb7",
       "email": "Peters@gmail.com",
       "next_login_msg": "Your mailbox is full.",
-      "last_login": "2022-10-05",
+      "last_login": "2022-11-21",
       "pwd_change": "2022-09-27"
     }
   ],
   "Runner62": [
     {
       "username": "Runner62",
-      "password": "Uo&wCAFA",
+      "password": "d0eb800c4e8da91900b4385d1be21c8a",
       "email": "GavLewis@itt.com.au",
       "next_login_msg": "",
       "last_login": "2022-10-17",
@@ -72,7 +72,7 @@
   "5486Asht": [
     {
       "username": "5486Asht",
-      "password": "O#v$CBFD",
+      "password": "952e47170b5a8577816d4e6fbadba478",
       "email": "Ash1994@tpg.com.au",
       "next_login_msg": "",
       "last_login": "2022-10-18",
@@ -82,7 +82,7 @@
   "user35BB": [
     {
       "username": "user35BB",
-      "password": "vT_E;nkr@A",
+      "password": "fe1e8812a0662c88fca9939e3e406a90",
       "email": "SBerry@tpg.com.au",
       "next_login_msg": "",
       "last_login": "2022-10-18",
@@ -92,7 +92,7 @@
   "2500Jessica": [
     {
       "username": "2500Jessica",
-      "password": "A>@AXswqo",
+      "password": "cf88602f9bbcd34de9c329a469b73237",
       "email": "Jessica@cba.com.au",
       "next_login_msg": "Please contact IT support.",
       "last_login": "2022-10-17",
@@ -102,7 +102,7 @@
   "RowenaJ1": [
     {
       "username": "RowenaJ1",
-      "password": "`}'s|o@AFE",
+      "password": "ec3292783dc2b084ff06df58f876c44d",
       "email": "Erick@tafe.com.au",
       "next_login_msg": "",
       "last_login": "2022-10-18",
@@ -112,7 +112,7 @@
   "Peter1993": [
     {
       "username": "Peter1993",
-      "password": "AEBG^s$s\"\"",
+      "password": "b2a424e89c5810d9f5286e30dca21c46",
       "email": "HanBlack@gmail.com",
       "next_login_msg": "System has been updated.",
       "last_login": "2022-10-17",
@@ -122,7 +122,7 @@
   "3977Leonel": [
     {
       "username": "3977Leonel",
-      "password": "AGEEZs}|sz",
+      "password": "71df59bb2d4c383d12de25694cc959af",
       "email": "Austin@iinet.com.au",
       "next_login_msg": "Access rights changed.",
       "last_login": "2022-10-18",
@@ -132,7 +132,7 @@
   "Test_User01": [
     {
       "username": "Test_User01",
-      "password": "LQ$4[hu&",
+      "password": "363b13ededd174b5f098725073b6c67c",
       "email": "test@test.com.au",
       "next_login_msg": "",
       "last_login": "2022-11-03",
@@ -142,7 +142,7 @@
   "Test_Non_Rand": [
     {
       "username": "Test_Non_Rand",
-      "password": "Password321!",
+      "password": "5bf2890a4bd04589acf70c401c921ebf",
       "email": "Not@Realemail.com.au",
       "next_login_msg": "",
       "last_login": "2022-11-08",
@@ -152,11 +152,11 @@
   "TestInput": [
     {
       "username": "TestInput",
-      "password": "Password123!",
+      "password": "2c103f2c4ed1e59c0b4e2e01821770fa",
       "email": "test@test.com",
-      "next_login_msg": "",
-      "last_login": "2022-11-17",
-      "pwd_change": "2022-11-12"
+      "next_login_msg": "Your password will expire in 6 days, please reset your password",
+      "last_login": "2022-11-21",
+      "pwd_change": "2022-07-30"
     }
   ]
 }
