@@ -19,9 +19,9 @@ def encryption(password_text, hashed, encrypt, validate):
         input_hash = hashlib.md5(input_password.encode())
 
         if input_hash.hexdigest() == encrypted_pass:
-            print ("passwords match")
+            # print ("passwords match")
             return True
         else:
-            print("Passwords DO NOT match")
+            # print("Passwords DO NOT match")
             return False
 

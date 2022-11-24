@@ -1,5 +1,6 @@
 import random
 import json
+import re
 
 def password_char_validate(password):
         #Prepare Bools
@@ -49,7 +50,6 @@ def password_generator():
     return rand_password
 
 def is_account(username_text):
-    # username_text.strip()
     with open("accounts.json", "r") as f:
         all_acc = json.load(f)
     try:
@@ -58,3 +58,15 @@ def is_account(username_text):
         return False
     else:
         return True
+
+
+def email_validation(email_text):
+    
+    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+
+    if(re.fullmatch(regex, email_text)):
+        # print("Valid Email")
+        return True
+    else:
+        # print("Invalid Email")
+        return False

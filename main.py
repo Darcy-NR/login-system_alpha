@@ -3,10 +3,9 @@ import datetime
 import json
 from curses import wrapper
 from curses.textpad import Textbox, rectangle
-from register import register
 import time
-from user_table_maker import user_table_maker
-from validators import password_char_validate, password_validate, password_generator, is_account
+from user_table_maker import user_table_maker, terminal_showtable_build
+from validators import password_char_validate, email_validation, password_validate, password_generator, is_account
 from add_user import add_user
 from user_message import user_message
 from expiry_check import expiry_check
@@ -103,7 +102,8 @@ def systems_menu(stdscr):
     stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
     rectangle(stdscr, 0, 0, 7, 70)
     stdscr.addstr(3, 1, "Print User Table", curses.A_REVERSE)
-    stdscr.addstr(4, 1, "Exit the App")
+    stdscr.addstr(4, 1, "Show and Edit Table")
+    stdscr.addstr(5, 1, "Exit the App")
     
     while True:
         key = stdscr.getkey()
@@ -120,6 +120,9 @@ def systems_menu(stdscr):
             goodbye()
         elif key == "KEY_RIGHT" and y == 0:
             stdscr.clear()
+            terminal_showtable()
+        elif key == "KEY_RIGHT" and y == -1:
+            stdscr.clear()
             goodbye()
 
         if y == 1:
@@ -128,18 +131,36 @@ def systems_menu(stdscr):
             stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
             rectangle(stdscr, 0, 0, 7, 70)
             stdscr.addstr(3, 1, "Print User Table", curses.A_REVERSE)
-            stdscr.addstr(4, 1, "Exit the App")
+            stdscr.addstr(4, 1, "Show and Edit Table")
+            stdscr.addstr(5, 1, "Exit the App")
         elif y == 0:
             stdscr.clear()
             stdscr.addstr(1, 1, "Welcome Administrator", curses.A_REVERSE)
             stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
             rectangle(stdscr, 0, 0, 7, 70)
             stdscr.addstr(3, 1, "Print User Table")
-            stdscr.addstr(4, 1, "Exit the App", curses.A_REVERSE)
+            stdscr.addstr(4, 1, "Show and Edit Table", curses.A_REVERSE)
+            stdscr.addstr(5, 1, "Exit the App")
+        elif y == -1:
+            stdscr.clear()
+            stdscr.addstr(1, 1, "Welcome Administrator", curses.A_REVERSE)
+            stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
+            rectangle(stdscr, 0, 0, 7, 70)
+            stdscr.addstr(3, 1, "Print User Table")
+            stdscr.addstr(4, 1, "Show and Edit Table")
+            stdscr.addstr(5, 1, "Exit the App", curses.A_REVERSE)
         if y >= 1:
             y = 1
         elif y <= 0:
             y = 0
+
+def terminal_showtable():
+    curses.endwin()
+    terminal_showtable_build()
+    goodbye()
+
+
+    
 
 def user_message_view(stdscr, context):
     stdscr.clear()
@@ -190,7 +211,7 @@ def goodbye():
     print(time.strftime("%H:%M:%S", time.gmtime(use_time)))
     print("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
     time.sleep(2.5)
-    exit()
+
 
 def failed_counter(stdscr):
     global fails
@@ -417,7 +438,7 @@ def register_new_user(stdscr):
     # Add User and then redirect to new screen
 
     #This works but its not every syntatic, maybe try give the user some better feedback? Not really possible with a function so maybe just a blanket errorr
-    if password_validate(password_text) == True:
+    if password_validate(password_text) == True and email_validation(email_text) == True:
         add_user(sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
         user_message_view(stdscr, 2)
     else:
@@ -458,7 +479,7 @@ def reset_pass_view(username_text, stdscr):
     password_text = pass_box.gather().strip()
     email_text = email_box.gather().strip()
 
-    if password_validate(password_text) == True:
+    if password_validate(password_text) == True and email_validation(email_text) == True:
 
         with open("accounts.json", "r") as f:
             all_acc = json.load(f)
@@ -512,7 +533,7 @@ def reset_pass_RAND_view(username_text, stdscr):
     for item in singleton:
         stored_email = item.get("email")
     
-    if email_text == stored_email:
+    if email_text == stored_email and email_validation(email_text) == True:
         sys_admin = False
         add_user(sys_admin, username_text, password_text, email_text, password_changed = True, login = False)
         user_message_view(stdscr, 3)

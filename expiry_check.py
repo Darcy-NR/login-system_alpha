@@ -18,21 +18,13 @@ def expiry_check(username_text,password_text, email_text):
 
     stored_unix_time = datetime.timestamp(datetime.strptime(str(pwd_change), "%Y-%m-%d"))
 
-    # print(nowdate_unix_time)
-    # print(stored_unix_time)
-
     password_warning_date = stored_unix_time + (86400 * 100)
     password_cutoff_date = stored_unix_time + (86400 * 120)
 
-    # print(password_cutoff_date)
-
     sanity_check = datetime.utcfromtimestamp(password_cutoff_date).strftime("%Y-%m-%d")
-    print(sanity_check)
 
     days_difference = password_cutoff_date - nowdate_unix_time
     days_remaining = days_difference / 86400
-
-    # print(int(days_remaining))
 
     if nowdate_unix_time >= password_warning_date:
 
