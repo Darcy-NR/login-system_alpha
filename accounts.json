@@ -153,20 +153,20 @@
     {
       "username": "TestInput",
       "password": "2c103f2c4ed1e59c0b4e2e01821770fa",
-      "email": "test@test.com",
-      "next_login_msg": "Your password will expire in 6 days, please reset your password",
-      "last_login": "2022-11-21",
-      "pwd_change": "2022-07-30"
+      "email": "fake@email.com",
+      "next_login_msg": "",
+      "last_login": "2022-11-27",
+      "pwd_change": "2022-11-27"
     }
   ],
   "AnotherUser": [
     {
       "username": "AnotherUser",
       "password": "2c103f2c4ed1e59c0b4e2e01821770fa",
-      "email": "test@email.com",
-      "next_login_msg": "System Updated",
-      "last_login": "2022-11-23",
-      "pwd_change": "2022-11-23"
+      "email": "test@test.com.au",
+      "next_login_msg": "",
+      "last_login": "2022-11-27",
+      "pwd_change": "2022-11-27"
     }
   ]
 }

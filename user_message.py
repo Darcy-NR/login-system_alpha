@@ -5,6 +5,7 @@ def user_message(context):
     message_03 = "Password has been reset"
     message_04 = "No such user exists, please try again."
     message_05 = "No such user exists, please try again."
+    message_06 = "This user already exists"
 
     if context == 1:
         output_message = message_01
@@ -14,7 +15,9 @@ def user_message(context):
         output_message = message_03
     elif context == 4:
         output_message = message_04
-    else:
+    elif context == 5:
         output_message = message_05
+    else:
+        output_message = message_06
     
     return output_message

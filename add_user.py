@@ -52,3 +52,17 @@ def add_user(sys_admin, username_text, password_text, email_text, password_chang
             json.dump(accounts, f, indent = 2)
 
         return
+
+def username_checker(username_text):
+
+    with open("accounts.json", "r") as f:
+        accounts = json.load(f)
+        
+        try:
+            new_user = accounts[username_text]
+        except:
+            print("There ISN'T a user with this name already")
+            return False
+        else:
+            print("There is a user with this name already")
+            return True

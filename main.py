@@ -6,7 +6,7 @@ from curses.textpad import Textbox, rectangle
 import time
 from user_table_maker import user_table_maker, terminal_showtable_build
 from validators import password_char_validate, email_validation, password_validate, password_generator, is_account
-from add_user import add_user
+from add_user import add_user, username_checker
 from user_message import user_message
 from expiry_check import expiry_check
 from pw_encryption import encryption
@@ -211,6 +211,7 @@ def goodbye():
     print(time.strftime("%H:%M:%S", time.gmtime(use_time)))
     print("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
     time.sleep(2.5)
+    exit()
 
 
 def failed_counter(stdscr):
@@ -389,14 +390,17 @@ def register_new_user_RAND(stdscr):
     stdscr.addstr(15, 1, "Password: " + password_text)
     
     stdscr.getch()
-
-    if password_validate(password_text) == True:
-        sys_admin = False
-        add_user(sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
-        user_message_view(stdscr, 2)
+    if username_checker(username_text) == False:
+        if password_validate(password_text) == True:
+            sys_admin = False
+            add_user(sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
+            user_message_view(stdscr, 2)
+        else:
+            stdscr.clear()
+            register_new_user(stdscr)
     else:
-        stdscr.clear()
-        register_new_user(stdscr)
+        user_message_view(stdscr, 6)
+
 
 def register_new_user(stdscr):
     #User wants their own password
@@ -437,13 +441,16 @@ def register_new_user(stdscr):
 
     # Add User and then redirect to new screen
 
-    #This works but its not every syntatic, maybe try give the user some better feedback? Not really possible with a function so maybe just a blanket errorr
-    if password_validate(password_text) == True and email_validation(email_text) == True:
-        add_user(sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
-        user_message_view(stdscr, 2)
+    if username_checker == False:
+        if password_validate(password_text) == True and email_validation(email_text) == True:
+            add_user(sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
+            user_message_view(stdscr, 2)
+        else:
+            stdscr.clear()
+            register_new_user(stdscr)
     else:
-        stdscr.clear()
-        register_new_user(stdscr)
+        user_message_view(stdscr, 6)
+        
 
 def retrieve_account(username_text):
     # username_text.strip()
