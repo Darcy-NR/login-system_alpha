@@ -39,16 +39,25 @@ start_time = time.time()
 
 def main(stdscr):
     y = 0
-    stdscr.addstr(1, 1, "Welcome to the LOGIN", curses.A_REVERSE)
+    stdscr.addstr(1, 1, "Welcome to Gelos Technologies", curses.A_REVERSE)
     stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _")
-    rectangle(stdscr, 0, 0, 7, 26,)
-    stdscr.clear()
-    stdscr.addstr(1, 1, "Welcome to the APP", curses.A_REVERSE)
-    stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _")
-    rectangle(stdscr, 0, 0, 7, 26, )
+    rectangle(stdscr, 0, 0, 7, 38, )
     stdscr.addstr(3, 1, "Login")
     stdscr.addstr(4, 1, "Register / Reset Password", curses.A_REVERSE)
     stdscr.addstr(5, 1, "Exit")
+
+    rectangle(stdscr, 8, 0, 20, 38, )
+    stdscr.addstr(9, 1, "- Arrow Keys to Navigate")
+    stdscr.addstr(10, 1, "menus.")
+
+    stdscr.addstr(12, 1, "- Hit Right Arrow ( -> ) to")
+    stdscr.addstr(13, 1, "confirm selection.")
+
+    stdscr.addstr(15, 1, "- Control C / Control Pause-Break to")
+    stdscr.addstr(16, 1, "close any time.")
+
+    stdscr.addstr(18, 1, "- Text inputs mostly follow emacs")
+    stdscr.addstr(19, 1, "standards. (Tab, and Enter for Entry)")
     while True:
         key = stdscr.getkey()
         if key == "KEY_UP":
@@ -66,29 +75,67 @@ def main(stdscr):
         stdscr.refresh()
 
         if y == 1:
-            stdscr.clear()
-            stdscr.addstr(1, 1, "Welcome to the APP", curses.A_REVERSE)
+            stdscr.addstr(1, 1, "Welcome to Gelos Technologies", curses.A_REVERSE)
             stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _")
-            rectangle(stdscr, 0, 0, 7, 26, )
+            rectangle(stdscr, 0, 0, 7, 38, )
             stdscr.addstr(3, 1, "Login", curses.A_REVERSE)
             stdscr.addstr(4, 1, "Register / Reset Password")
             stdscr.addstr(5, 1, "Exit")
+
+            rectangle(stdscr, 8, 0, 20, 38, )
+            stdscr.addstr(9, 1, "- Arrow Keys to Navigate")
+            stdscr.addstr(10, 1, "menus.")
+
+            stdscr.addstr(12, 1, "- Hit Right Arrow ( -> ) to")
+            stdscr.addstr(13, 1, "confirm selection.")
+
+            stdscr.addstr(15, 1, "- Control C / Control Pause-Break to")
+            stdscr.addstr(16, 1, "close any time.")
+
+            stdscr.addstr(18, 1, "- Text inputs mostly follow emacs")
+            stdscr.addstr(19, 1, "standards. (Tab, and Enter for Entry)")
         elif y == 0:
             stdscr.clear()
-            stdscr.addstr(1, 1, "Welcome to the APP", curses.A_REVERSE)
+            stdscr.addstr(1, 1, "Welcome to Gelos Technologies", curses.A_REVERSE)
             stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _")
-            rectangle(stdscr, 0, 0, 7, 26, )
+            rectangle(stdscr, 0, 0, 7, 38, )
             stdscr.addstr(3, 1, "Login")
             stdscr.addstr(4, 1, "Register / Reset Password", curses.A_REVERSE)
             stdscr.addstr(5, 1, "Exit")
+
+            rectangle(stdscr, 8, 0, 20, 38, )
+            stdscr.addstr(9, 1, "- Arrow Keys to Navigate")
+            stdscr.addstr(10, 1, "menus.")
+
+            stdscr.addstr(12, 1, "- Hit Right Arrow ( -> ) to")
+            stdscr.addstr(13, 1, "confirm selection.")
+
+            stdscr.addstr(15, 1, "- Control C / Control Pause-Break to")
+            stdscr.addstr(16, 1, "close any time.")
+
+            stdscr.addstr(18, 1, "- Text inputs mostly follow emacs")
+            stdscr.addstr(19, 1, "standards. (Tab, and Enter for Entry)")
         elif y == -1:
             stdscr.clear()
-            stdscr.addstr(1, 1, "Welcome to the APP", curses.A_REVERSE)
+            stdscr.addstr(1, 1, "Welcome to Gelos Technologies", curses.A_REVERSE)
             stdscr.addstr(2, 1, "_ _ _ _ _ _ _ _ _ _ _")
-            rectangle(stdscr, 0, 0, 7, 26, )
+            rectangle(stdscr, 0, 0, 7, 38, )
             stdscr.addstr(3, 1, "Login")
             stdscr.addstr(4, 1, "Register / Reset Password")
             stdscr.addstr(5, 1, "Exit", curses.A_REVERSE)
+
+            rectangle(stdscr, 8, 0, 20, 38, )
+            stdscr.addstr(9, 1, "- Arrow Keys to Navigate")
+            stdscr.addstr(10, 1, "menus.")
+
+            stdscr.addstr(12, 1, "- Hit Right Arrow ( -> ) to")
+            stdscr.addstr(13, 1, "confirm selection.")
+
+            stdscr.addstr(15, 1, "- Control C / Control Pause-Break to")
+            stdscr.addstr(16, 1, "close any time.")
+
+            stdscr.addstr(18, 1, "- Text inputs mostly follow emacs")
+            stdscr.addstr(19, 1, "standards. (Tab, and Enter for Entry)")
         if y >= 1:
             y = 1
         elif y <= -1:
@@ -227,7 +274,7 @@ def failed_counter(stdscr):
 def login_func(stdscr, username_text, password_text):
     today_date = str(datetime.date.today())
 
-    # Strip trailing space from input (also probably sanitize)
+    # Strip trailing space from input
     username = username_text.strip()
     password = password_text.strip()
 
@@ -383,8 +430,6 @@ def register_new_user_RAND(stdscr):
     password_text = password_generator().strip()
     email_text = email_box.gather().strip()
 
-
-    #These are placeholders, this should be removed in production
     stdscr.addstr(13, 1, "Username: " + username_text)
     stdscr.addstr(14, 1, "Email: " + email_text)
     stdscr.addstr(15, 1, "Password: " + password_text)
@@ -547,11 +592,6 @@ def reset_pass_RAND_view(username_text, stdscr):
     else:
         stdscr.clear()
         register(stdscr)
-
-    # Add User and then redirect to new screen
-
-    stdscr.clear()
-    main(stdscr)
     
 def reset_pass_username_view(stdscr, resetRand):
     stdscr.refresh()
@@ -604,8 +644,6 @@ def login(stdscr):
     username_text = un_box.gather().strip()
     password_text = pass_box.gather().strip()
 
-
-    #These are placeholders, this should be removed in production
     stdscr.addstr(13, 1, "Username: " + username_text + "|")
     stdscr.addstr(14, 1, "Password: " + password_text + "|")
     

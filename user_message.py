@@ -1,5 +1,6 @@
 def user_message(context):
-
+    #Bank of messages, depending on how this user defined function is called, the context integer changes
+    # and the output message that is rendered on the view layer changes.
     message_01 = "You have logged in successfully!"
     message_02 = "You have successfully registered a new account."
     message_03 = "Password has been reset"

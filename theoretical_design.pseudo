@@ -178,49 +178,85 @@ function encryption(encrypt=, validate=, password_text, hashed){
     }
 
 }
-  //                                //
- //== [ ENCRYPTION PSEUDOCODE]   ==//
+
+//                                //
+//== [ ENCRYPTION PSEUDOCODE]   ==//
 //                                //
 
 function terminal_table {
 
-        accounts = file.read(accounts.json)
-        singleton = accounts[username]
-        
-        table = Create.Table("Username", "Password", "Email", "Next Login Message", "Last Login", "Password Changed")
+      accounts = file.read(accounts.json)
+      singleton = accounts[username]
+      
+      table = Create.Table("Username", "Password", "Email", "Next Login Message", "Last Login", "Password Changed")
 
-        For object in account{
-    
-            password = accounts["password"]
-            
-            table.add_row(account["username"], password_hider(password), account["email"], account["next_login_msg"], account["last_login"], account["pwd_change"])
-    
-        }
+      For object in account{
+  
+          password = accounts["password"]
+          
+          table.add_row(account["username"], password_hider(password), account["email"], account["next_login_msg"], account["last_login"], account["pwd_change"])
+  
+      }
 
-        print(table)
+      print(table)
 
-        print("please enter the username you wish to edit")
+      print("please enter the username you wish to edit")
 
-        edit_user = input()
-        
-        accounts[edit_user] = singleton
-        
-        single_row_table = Create.Table("Username", "Password", "Email", "Next Login Message", "Last Login", "Password Changed")
+      edit_user = input()
+      
+      accounts[edit_user] = singleton
+      
+      single_row_table = Create.Table("Username", "Password", "Email", "Next Login Message", "Last Login", "Password Changed")
 
-        table.add_row(singleton)
+      table.add_row(singleton)
 
-        print(single_row_table)
-        print("Enter updated message")
-        update_message = input()
+      print(single_row_table)
+      print("Enter updated message")
+      update_message = input()
 
-        updated_message = [{'username': item.get("username"), 'password': item.get("password"), 'email': item.get("email"), 
-        'next_login_msg': update_message, 'last_login': item.get("last_login"), 'pwd_change': item.get("pwd_change") }]
+      updated_message = [{'username': item.get("username"), 'password': item.get("password"), 'email': item.get("email"), 
+      'next_login_msg': update_message, 'last_login': item.get("last_login"), 'pwd_change': item.get("pwd_change") }]
 
-        accounts[edit_user] = updated_message
+      accounts[edit_user] = updated_message
 
-        accounts[username] = file.write(accounts.json)
+      accounts[username] = file.write(accounts.json)
 
-        end()
+      end()
 
+  }
+
+
+  //                     //
+ //== [ USERNAME CHECK ] ==//
+//                     //
+
+function username_check(username) {
+
+    accounts = file.read(accounts.json)
+    singleton = accounts[username]
+
+    if accounts[username] == True {
+        return True
+    } else {
+        return False
     }
-}
+
+  }
+
+  //                     //
+ //== [ EMAIL CHECK ] ==//
+//                     //
+
+function email_check(email) {
+
+
+    regex == r{any word/number} + "@" + {any word/number} + "." {any word/number}
+
+    if email == regex {
+        return True
+    } else {
+        return False
+    }
+
+  }
+
