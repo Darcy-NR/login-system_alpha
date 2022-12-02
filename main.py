@@ -1,3 +1,5 @@
+# (C) Nicholas Ryan Darcy - December 2022 : All Rights Reserved
+
 import curses
 import datetime
 import json
@@ -198,16 +200,14 @@ def systems_menu(stdscr):
             stdscr.addstr(5, 1, "Exit the App", curses.A_REVERSE)
         if y >= 1:
             y = 1
-        elif y <= 0:
-            y = 0
+        elif y <= -1:
+            y = -1
 
 def terminal_showtable():
     curses.endwin()
     terminal_showtable_build()
     goodbye()
 
-
-    
 
 def user_message_view(stdscr, context):
     stdscr.clear()
@@ -240,12 +240,14 @@ def failed_login(stdscr, fails):
         stdscr.addstr(3, 1, "_ _ _ _ _ _ _ _ _ _ _")
         rectangle(stdscr, 0, 0, 3, 46,)
         stdscr.getch()
+        stdscr.clear()
     elif fails == 2:
         stdscr.addstr(1, 1, "That Password is Invalid", curses.A_REVERSE)
         stdscr.addstr(2, 1, "You have 1 try remaining")
         stdscr.addstr(3, 1, "_ _ _ _ _ _ _ _ _ _ _")
         rectangle(stdscr, 0, 0, 3, 46,)
         stdscr.getch()
+        stdscr.clear()
 
 def goodbye():
     global start_time
@@ -430,19 +432,20 @@ def register_new_user_RAND(stdscr):
     password_text = password_generator().strip()
     email_text = email_box.gather().strip()
 
-    stdscr.addstr(13, 1, "Username: " + username_text)
-    stdscr.addstr(14, 1, "Email: " + email_text)
-    stdscr.addstr(15, 1, "Password: " + password_text)
+    stdscr.addstr(15, 1, "BELOW ARE YOUR ACCOUNT DETAILS -- PLEASE ENSURE YOU RECORD THEM BEFORE CONTINUING", curses.A_REVERSE)
+    stdscr.addstr(16, 1, "Username: " + username_text)
+    stdscr.addstr(17, 1, "Email: " + email_text)
+    stdscr.addstr(18, 1, "Password: " + password_text)
     
     stdscr.getch()
     if username_checker(username_text) == False:
-        if password_validate(password_text) == True:
+        if password_validate(password_text) == True and email_validation(email_text) == True:
             sys_admin = False
             add_user(sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
             user_message_view(stdscr, 2)
         else:
             stdscr.clear()
-            register_new_user(stdscr)
+            register_new_user_RAND(stdscr)
     else:
         user_message_view(stdscr, 6)
 
@@ -475,18 +478,17 @@ def register_new_user(stdscr):
     password_text = pass_box.gather().strip()
     email_text = email_box.gather().strip()
 
-
-    #These are placeholders, this should be removed in production
-    stdscr.addstr(19, 1, "Username: " + username_text)
-    stdscr.addstr(20, 1, "Password: " + password_text)
+    stdscr.addstr(19, 1, "BELOW ARE YOUR ACCOUNT DETAILS -- PLEASE ENSURE YOU RECORD THEM BEFORE CONTINUING", curses.A_REVERSE)
+    stdscr.addstr(20, 1, "Username: " + username_text)
     stdscr.addstr(21, 1, "Email: " + email_text)
+    stdscr.addstr(22, 1, "Password: " + password_text)
     
     stdscr.getch()
     sys_admin = False
 
     # Add User and then redirect to new screen
 
-    if username_checker == False:
+    if username_checker(username_text) == False:
         if password_validate(password_text) == True and email_validation(email_text) == True:
             add_user(sys_admin, username_text, password_text, email_text, password_changed = False, login = False)
             user_message_view(stdscr, 2)

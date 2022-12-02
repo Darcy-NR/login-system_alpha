@@ -155,7 +155,7 @@
       "password": "2c103f2c4ed1e59c0b4e2e01821770fa",
       "email": "fake@email.com",
       "next_login_msg": "",
-      "last_login": "2022-11-27",
+      "last_login": "2022-12-02",
       "pwd_change": "2022-11-27"
     }
   ],
@@ -167,6 +167,26 @@
       "next_login_msg": "",
       "last_login": "2022-11-27",
       "pwd_change": "2022-11-27"
+    }
+  ],
+  "RegistrationTest": [
+    {
+      "username": "RegistrationTest",
+      "password": "2c103f2c4ed1e59c0b4e2e01821770fa",
+      "email": "test@test.com",
+      "next_login_msg": "",
+      "last_login": "2022-12-02",
+      "pwd_change": "2022-12-02"
+    }
+  ],
+  "ThisUserDoesNotExist": [
+    {
+      "username": "ThisUserDoesNotExist",
+      "password": "2c103f2c4ed1e59c0b4e2e01821770fa",
+      "email": "fake@email.com",
+      "next_login_msg": "",
+      "last_login": "2022-12-02",
+      "pwd_change": "2022-12-02"
     }
   ]
 }
